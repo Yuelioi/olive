@@ -1,16 +1,12 @@
 <script setup lang="ts">
-// defineProps<{
-//     msg: string
-// }>()
+defineProps<{
+    msg: string
+}>()
 </script>
 
 <template>
     <div class="greetings">
-
-        <h3>
-            OLive is a simple application to watch with your friends
-
-        </h3>
+        <h3>{msg}</h3>
     </div>
 </template>
 
@@ -31,7 +27,6 @@ h3 {
 }
 
 @media (min-width: 1024px) {
-
     .greetings h1,
     .greetings h3 {
         text-align: left;

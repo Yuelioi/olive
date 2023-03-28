@@ -1,27 +1,7 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import MyForm from './components/MyForm.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <header>
-        <img alt="Vue logo" class="logo" src="@/assets/olive.png" width="115" height="150" />
-
-        <div class="wrapper">
-            <HelloWorld />
-
-            <nav>
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-            </nav>
-        </div>
-    </header>
-
     <RouterView />
-    <p>111</p>
-
-    <MyForm />
 </template>
 
 <style scoped>

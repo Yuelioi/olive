@@ -2,7 +2,6 @@ const http = require('http')
 const server = http.createServer()
 
 const io = require('socket.io')(server, {
-    // 这里改为 server
     cors: {
         origin: '*',
         methods: ['GET', 'POST'],
@@ -15,10 +14,11 @@ io.on('connection', (socket) => {
 
     socket.on('message', (message) => {
         console.log('Received message:', message)
-        socket.emit('message', message) // 将消息发送回当前客户端
+        // socket.emit('message', message) // 将消息发送回当前客户端
+        io.emit('message', message) // 将消息发送回全部客户端
     })
 
-    socket.emit('message', 'Welcome to the server!')
+    socket.emit('message', { type: 'logger', username: '系统', message: '欢迎你,新的到访者' })
 })
 
 server.listen(8080, () => {
