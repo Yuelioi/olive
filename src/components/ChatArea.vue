@@ -51,9 +51,6 @@ onMounted(() => {
     // 监听连接成功事件
 
     const client = props.client
-    client.on('connect', () => {
-        console.log('Chat Connected')
-    })
 
     // 监听服务器发来的消息
     client.on('message', (msg: Message) => {

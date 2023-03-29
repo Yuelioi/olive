@@ -1,11 +1,13 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useStatusStore = defineStore('counter', () => {
     const username = ref('')
     const usertype = ref('')
     const roomId = ref('')
-    const doubleCount = computed(() => username)
+    const password = ref('')
+    const joinPassword = ref('')
+    const numbers = ref(10)
     const userInfoInit = () => {
         username.value = username.value
             ? username.value
@@ -17,5 +19,30 @@ export const useStatusStore = defineStore('counter', () => {
             : localStorage.getItem('usertype') || 'user'
     }
 
-    return { username, usertype, roomId, doubleCount, userInfoInit }
+    const vOptions = {
+        isLive: false,
+        muted: false,
+        autoplay: true,
+        pip: true,
+        autoSize: true,
+        autoMini: true,
+        screenshot: true,
+        setting: true,
+        loop: true,
+        flip: true,
+        playbackRate: true,
+        aspectRatio: true,
+        fullscreen: true,
+        fullscreenWeb: true,
+        subtitleOffset: true,
+        miniProgressBar: true,
+        mutex: true,
+        backdrop: true,
+        playsInline: true,
+        autoPlayback: true,
+        airplay: true,
+        theme: '#23ade5'
+    }
+
+    return { username, usertype, roomId, password, joinPassword, numbers, userInfoInit, vOptions }
 })

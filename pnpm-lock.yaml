@@ -6,7 +6,6 @@ specifiers:
   '@types/jsdom': ^21.1.0
   '@types/node': ^18.15.6
   '@types/socket.io': ^3.0.2
-  '@videojs-player/vue': ^1.0.0
   '@vitejs/plugin-vue': ^4.0.0
   '@vitejs/plugin-vue-jsx': ^3.0.0
   '@vue/eslint-config-prettier': ^7.1.0
@@ -32,7 +31,6 @@ specifiers:
 
 dependencies:
   '@types/socket.io': 3.0.2
-  '@videojs-player/vue': 1.0.0_video.js@8.0.4+vue@3.2.47
   artplayer: 4.6.2
   pinia: 2.0.33_7h6e7cvei2rsgyre2mq4fyhehq
   socket.io: 4.6.1
@@ -893,22 +891,9 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@videojs-player/vue/1.0.0_video.js@8.0.4+vue@3.2.47:
-    resolution: {integrity: sha512-WonTezRfKu3fYdQLt/ta+nuKH6gMZUv8l40Jke/j4Lae7IqeO/+lLAmBnh3ni88bwR+vkFXIlZ2Ci7VKInIYJg==}
-    peerDependencies:
-      '@types/video.js': 7.x
-      video.js: 7.x
-      vue: 3.x
-    dependencies:
-      video.js: 8.0.4
-      vue: 3.2.47
-    dev: false
-
-  /@videojs/http-streaming/3.0.0_video.js@8.0.4:
+  /@videojs/http-streaming/3.0.0:
     resolution: {integrity: sha512-AdKmY/W2dyeJP0uALgMRmhLa4pbHMvE4OMlg6yQvufnqsz6jDFo1DYnZRv2ENDYrmVdnPH58Ehgu59053+OIhQ==}
     engines: {node: '>=8', npm: '>=5'}
-    peerDependencies:
-      video.js: ^7 || ^8
     dependencies:
       '@babel/runtime': 7.21.0
       '@videojs/vhs-utils': 4.0.0
@@ -3655,7 +3640,7 @@ packages:
     resolution: {integrity: sha512-fvvWauPanrKDps1HQGGL+9CIAK8G0YVwlNme0hvY0k3moXQryaRcJSLHIlPKV2j9ZFTHl32VbN43jL3TaUllfg==}
     dependencies:
       '@babel/runtime': 7.21.0
-      '@videojs/http-streaming': 3.0.0_video.js@8.0.4
+      '@videojs/http-streaming': 3.0.0
       '@videojs/vhs-utils': 4.0.0
       '@videojs/xhr': 2.6.0
       aes-decrypter: 4.0.1
