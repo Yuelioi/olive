@@ -5,13 +5,19 @@
         <input type="text" v-model="message" /><br />
         <button @click="sendMessage">Send</button>
         <ul>
-            <li v-for="msg in messages" :key="msg.id">{{ msg.message }}</li>
+            <li v-for="msg in messages" :key="msg.id">{{ msg.username + ':' + msg.message }}</li>
         </ul>
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useStatusStore } from '../stores/userstatus'
+
+const store = useStatusStore()
+store.userInfoInit()
+let { username } = storeToRefs(store)
 
 interface Message {
     type: string
@@ -21,21 +27,19 @@ interface Message {
 }
 
 enum MessageType {
-    Log = 'logger',
-    User = 'user_msg'
+    SYSTEM = 'system',
+    MESSAGE = 'message'
 }
 
 const message = ref('')
-const username = ref('')
-const messages = ref<Message[]>([]) // 显式指定类型
 
-// const socket = defineProps(['socket']).socket
+const messages = ref<Message[]>([])
 
 const sendMessage = () => {
     const client = props.client
-    console.log(client)
+
     client.emit('message', {
-        type: MessageType.User,
+        type: MessageType.MESSAGE,
         username: username.value,
         message: message.value
     })
@@ -54,19 +58,19 @@ onMounted(() => {
     // 监听服务器发来的消息
     client.on('message', (msg: Message) => {
         switch (msg.type) {
-            case MessageType.Log:
+            case MessageType.SYSTEM:
                 messages.value.push({
-                    type: MessageType.Log,
+                    type: MessageType.SYSTEM,
                     id: Date.now(),
-                    username: username.value,
+                    username: msg.username,
                     message: msg.message
                 })
                 break
-            case MessageType.User:
+            case MessageType.MESSAGE:
                 messages.value.push({
-                    type: MessageType.User,
+                    type: MessageType.MESSAGE,
                     id: Date.now(),
-                    username: username.value,
+                    username: msg.username,
                     message: msg.message
                 })
                 break

@@ -10,13 +10,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/room/:roomId',
         name: 'Room',
-        component: () => import('../views/TheRoom.vue'),
-        children: [
-            {
-                path: '',
-                component: () => import('../components/ChatArea.vue')
-            }
-        ]
+        component: () => import('../views/TheRoom.vue')
     }
 ]
 

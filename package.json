@@ -17,6 +17,7 @@
     "dependencies": {
         "@types/socket.io": "^3.0.2",
         "@videojs-player/vue": "^1.0.0",
+        "artplayer": "^4.6.2",
         "pinia": "^2.0.32",
         "socket.io": "^4.6.1",
         "socket.io-client": "^4.6.1",
