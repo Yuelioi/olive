@@ -1,51 +1,30 @@
-const http = require('http')
-const socketIO = require('socket.io')
-
-const server = http.createServer()
-const io = socketIO(server, {
-    cors: {
-        origin: '*',
-        methods: ['GET', 'POST'],
-        credentials: true
-    }
-})
-let rooms = []
-const connectedClients = io.sockets.sockets
-io.on('connection', (socket) => {
-    console.log('Client connected')
-
-    const onMessageReceived = (message) => {
-        console.log('Received message:', message)
-        io.emit('message', message)
-    }
-    const onVideoSync = (message) => {
-        console.log('Received VideoSync:', message)
-        io.emit('message', message)
-    }
+export default (io, socket) => {
     const roomManage = (message) => {
-        console.log(message)
+        socket.data.username = message.username
+        const rooms = []
         switch (message.type) {
             case 'create':
-                if (!rooms.find((room) => room.roomId === message.roomId)) {
-                    rooms.push({
-                        roomId: message.roomId,
-                        username: message.username,
-                        password: message.password || '',
-                        numbers: message.numbers || 100,
-                        currentNumber: 1,
-                        clientIds: [message.clientId]
-                    })
-                }
+                // if (!rooms.find((room) => room.roomId === message.roomId)) {
+                //     rooms.push({
+                //         roomId: message.roomId,
+                //         username: message.username,
+                //         password: message.password || '',
+                //         numbers: message.numbers || 100,
+                //         currentNumber: 1,
+                //         clientIds: [message.clientId]
+                //     })
+                // }
 
                 break
             case 'join':
                 {
-                    const room = rooms.find(
-                        (element) =>
-                            element.roomId === message.roomId &&
-                            element.password === message.password &&
-                            element.currentNumber < element.numbers
-                    )
+                    // const room = rooms.find(
+                    //     (element) =>
+                    //         element.roomId === message.roomId &&
+                    //         element.password === message.password &&
+                    //         element.currentNumber < element.numbers
+                    // )
+                    const room = ''
 
                     if (room) {
                         console.log('加入成功')
@@ -70,15 +49,11 @@ io.on('connection', (socket) => {
                             status: false
                         })
                     }
-                    console.log(rooms)
-                    console.log(connectedClients)
-                    // Log the IDs of all connected clients
-                    console.log('Connected clients:', Object.keys(connectedClients))
 
-                    // Log the IP address of each connected client
-                    Object.values(connectedClients).forEach((client) => {
-                        console.log(`Client ${client.id} IP address: ${client.handshake.address}`)
-                    })
+                    // // Log the IP address of each connected client
+                    // Object.values(connectedClients).forEach((client) => {
+                    //     console.log(`Client ${client.id} IP address: ${client.handshake.address}`)
+                    // })
                 }
 
                 break
@@ -113,18 +88,5 @@ io.on('connection', (socket) => {
             }
         }
     }
-
-    const onVideoControl = (message) => {
-        console.log('Received message:', message)
-        io.emit('message', message)
-    }
-
-    socket.on('message', onMessageReceived)
     socket.on('room', roomManage)
-    socket.on('video-sync', onVideoSync)
-    socket.on('video-control', onVideoControl)
-})
-
-server.listen(8080, () => {
-    console.log('Server is running on port 8080') // 这里改为 8080
-})
+}

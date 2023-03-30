@@ -8,10 +8,10 @@ This is a project to watch video with your friends
 
 2.播放卡顿怎么办, 加个同步按钮
 
-3.进入房间后 自动同步一下
-
-4.添加密码 用户数限制
-
 5.陌生人进入房间 可以先搜索 再验证密码
 
-6. 不需要保存clientId
+当房主离开时 需要disconnectSockets
+
+播放列表
+
+显示当前在线人数(用户列表?) 以及总在线人数

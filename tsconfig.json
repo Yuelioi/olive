@@ -1,7 +1,18 @@
 {
-    "exclude": [
-        "server"
-    ],
+    "compilerOptions": {
+        "types": [
+            "index.d.ts"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "@/types/*": [
+                "src/types/*"
+            ]
+        }
+    },
     "files": [],
     "references": [
         {

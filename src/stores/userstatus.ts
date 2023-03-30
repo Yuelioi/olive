@@ -1,13 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useStatusStore = defineStore('counter', () => {
+export const useStatusStore = defineStore('userData', () => {
     const username = ref('')
     const usertype = ref('')
     const roomId = ref('')
     const password = ref('')
-    const joinPassword = ref('')
-    const numbers = ref(10)
+    const joinPassword = ''
+    const numbers = 10
     const userInfoInit = () => {
         username.value = username.value
             ? username.value
@@ -18,6 +18,7 @@ export const useStatusStore = defineStore('counter', () => {
             ? usertype.value
             : localStorage.getItem('usertype') || 'user'
     }
+    const host = 'http://localhost:5173/'
 
     const vOptions = {
         isLive: false,
@@ -44,5 +45,15 @@ export const useStatusStore = defineStore('counter', () => {
         theme: '#23ade5'
     }
 
-    return { username, usertype, roomId, password, joinPassword, numbers, userInfoInit, vOptions }
+    return {
+        host,
+        username,
+        usertype,
+        roomId,
+        password,
+        joinPassword,
+        numbers,
+        userInfoInit,
+        vOptions
+    }
 })

@@ -2,6 +2,7 @@
     "name": "video-player",
     "version": "0.0.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "run-p type-check build-only",
@@ -12,7 +13,7 @@
         "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
         "format": "prettier --write src/",
-        "server": "node ./server/server.js"
+        "server": "node ./server/index.js"
     },
     "dependencies": {
         "@types/socket.io": "^3.0.2",
