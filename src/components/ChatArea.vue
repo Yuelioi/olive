@@ -15,6 +15,8 @@ import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
 
+import { MessageType } from '@/types/client'
+
 const store = useStatusStore()
 store.userInfoInit()
 let { username } = storeToRefs(store)
@@ -24,11 +26,6 @@ interface Message {
     id?: number
     username: string
     message: string
-}
-
-enum MessageType {
-    SYSTEM = 'system',
-    MESSAGE = 'message'
 }
 
 const message = ref('')
