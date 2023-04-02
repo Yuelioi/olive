@@ -1,13 +1,17 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { io } from 'socket.io-client'
+// import type { Socket } from 'socket.io-client'
+import { ClientData } from '@/configs/data'
 
 export const useStatusStore = defineStore('userData', () => {
     const username = ref('')
     const usertype = ref('')
     const roomId = ref('')
     const password = ref('')
-    const joinPassword = ''
-    const numbers = 10
+    const joinPassword = ref('')
+    const isJoined = ref(false)
+
     const userInfoInit = () => {
         username.value = username.value
             ? username.value
@@ -17,43 +21,35 @@ export const useStatusStore = defineStore('userData', () => {
         usertype.value = usertype.value
             ? usertype.value
             : localStorage.getItem('usertype') || 'user'
+        password.value = password.value
+            ? joinPassword.value
+            : localStorage.getItem('password') || ''
+        joinPassword.value = joinPassword.value
+            ? joinPassword.value
+            : localStorage.getItem('joinPassword') || ''
     }
-    const host = 'http://localhost:5173/'
 
-    const vOptions = {
-        isLive: false,
-        muted: false,
-        autoplay: true,
-        pip: true,
-        autoSize: true,
-        autoMini: true,
-        screenshot: true,
-        setting: true,
-        loop: true,
-        flip: true,
-        playbackRate: true,
-        aspectRatio: true,
-        fullscreen: true,
-        fullscreenWeb: true,
-        subtitleOffset: true,
-        miniProgressBar: true,
-        mutex: true,
-        backdrop: true,
-        playsInline: true,
-        autoPlayback: true,
-        airplay: true,
-        theme: '#23ade5'
+    const userClient = () => {
+        return io(`localhost:${ClientData.port}`)
     }
 
     return {
-        host,
         username,
+        isJoined,
         usertype,
         roomId,
         password,
         joinPassword,
-        numbers,
-        userInfoInit,
-        vOptions
+        userClient,
+        userInfoInit
+    } as {
+        username: typeof username
+        isJoined: typeof isJoined
+        usertype: typeof usertype
+        roomId: typeof roomId
+        password: typeof password
+        joinPassword: typeof joinPassword
+        userInfoInit: typeof userInfoInit
+        userClient: any
     }
 })
