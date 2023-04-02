@@ -14,22 +14,16 @@
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
+import { registerChat } from '../clients/chat'
 
-import { MessageType } from '@/types/client'
+import { MessageType } from '@/configs/data'
+import type { Message } from '@/types/client'
 
 const store = useStatusStore()
-store.userInfoInit()
+
 let { username } = storeToRefs(store)
 
-interface Message {
-    type: string
-    id?: number
-    username: string
-    message: string
-}
-
 const message = ref('')
-
 const messages = ref<Message[]>([])
 
 const sendMessage = () => {
@@ -48,31 +42,6 @@ onMounted(() => {
     // 监听连接成功事件
 
     const client = props.client
-
-    // 监听服务器发来的消息
-    client.on('message', (msg: Message) => {
-        switch (msg.type) {
-            case MessageType.SYSTEM:
-                messages.value.push({
-                    type: MessageType.SYSTEM,
-                    id: Date.now(),
-                    username: msg.username,
-                    message: msg.message
-                })
-                break
-            case MessageType.MESSAGE:
-                messages.value.push({
-                    type: MessageType.MESSAGE,
-                    id: Date.now(),
-                    username: msg.username,
-                    message: msg.message
-                })
-                break
-            // add more cases for other message types here
-            default:
-                // handle unknown message types
-                break
-        }
-    })
+    registerChat(client, messages)
 })
 </script>

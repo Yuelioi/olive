@@ -5,11 +5,11 @@ import Header from '../components/HeaderTop.vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
-
+import { ClientData } from '@/configs/data'
 const router = useRouter()
 const store = useStatusStore()
 store.userInfoInit()
-let { username, roomId, usertype, password, joinPassword, numbers } = storeToRefs(store)
+const { username, roomId, usertype, password, joinPassword } = storeToRefs(store)
 
 const createRoom = () => {
     // 生成随机的房间ID
@@ -24,9 +24,11 @@ const createRoom = () => {
         }
     })
 
+    localStorage.setItem('roomId', roomId.value)
     localStorage.setItem('username', username.value)
     localStorage.setItem('usertype', usertype.value)
-    localStorage.setItem('roomId', roomId.value)
+    localStorage.setItem('password', password.value)
+    localStorage.setItem('joinPassword', joinPassword.value)
 }
 const joinRoom = () => {
     usertype.value = 'user'
@@ -40,10 +42,11 @@ const joinRoom = () => {
             }
         })
     }
-
+    localStorage.setItem('roomId', roomId.value)
     localStorage.setItem('username', username.value)
     localStorage.setItem('usertype', usertype.value)
-    localStorage.setItem('roomId', roomId.value)
+    localStorage.setItem('password', password.value)
+    localStorage.setItem('joinPassword', joinPassword.value)
 }
 </script>
 
@@ -57,8 +60,8 @@ const joinRoom = () => {
         <br />
         <label for="password">密码:</label>
         <input type="text" name="password" v-model="password" />
-        <label for="numbers">人数:</label>
-        <input type="text" name="numbers" v-model="numbers" />
+        <label for="capacity">人数:</label>
+        <input type="text" name="capacity" v-model="ClientData.capacity" />
         <button @click="createRoom">创建房间</button>
         <br />
         <label for="roomId">房间号:</label>

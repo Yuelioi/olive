@@ -1,9 +1,13 @@
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
 import type { Socket } from 'socket.io-client'
+import { ClientData } from '@/configs/data'
+
 const store = useStatusStore()
+
+const { username, roomId, usertype, password, joinPassword, isJoined } = storeToRefs(store)
+
 store.userInfoInit()
-const { username, roomId, usertype, password, numbers, joinPassword } = storeToRefs(store)
 
 export const registerRoom = (client: Socket) => {
     client.on('connect', () => {
@@ -13,7 +17,7 @@ export const registerRoom = (client: Socket) => {
                 username: username.value,
                 roomId: roomId.value,
                 password: password.value,
-                numbers: numbers.value,
+                capacity: ClientData.capacity,
                 clientId: client.id
             })
         }
@@ -28,11 +32,15 @@ export const registerRoom = (client: Socket) => {
         }
     })
 
-    client.on('system', (msg: any) => {
-        if (msg.status) {
-            console.log('加入成功')
-        } else {
-            alert('加入失败,房间不存在或者密码错误')
+    client.on('room', (msg: any) => {
+        if (msg.type == 'join') {
+            if (msg.status) {
+                console.log('加入成功')
+                isJoined.value = true
+            } else {
+                isJoined.value = false
+                alert('加入失败,房间不存在或者密码错误')
+            }
         }
     })
 }

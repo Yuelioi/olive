@@ -12,7 +12,11 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url)),
-            '@/types': path.resolve(__dirname, 'src/types')
+            '@/types': path.resolve(__dirname, 'src/types'),
+            '@/assets': path.resolve(__dirname, 'src/assets'),
+            '@/components': path.resolve(__dirname, 'src/components'),
+            '@/configs': path.resolve(__dirname, 'src/configs'),
+            '@/stores': path.resolve(__dirname, 'src/stores')
         }
     }
 })

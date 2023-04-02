@@ -4,9 +4,3 @@ export interface Message {
     username: string
     message: any
 }
-
-export enum MessageType {
-    SYSTEM = 'system',
-    MESSAGE = 'message',
-    ROOM = 'room'
-}

@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
+        "target": "ES2022",
+        "esModuleInterop": true,
         "types": [
-            "index.d.ts"
+            "index.d.ts",
+            "pinia",
         ],
         "baseUrl": "./",
         "paths": {
@@ -10,6 +13,18 @@
             ],
             "@/types/*": [
                 "src/types/*"
+            ],
+            "@/assets/*": [
+                "src/assets/*"
+            ],
+            "@/components/*": [
+                "src/components/*"
+            ],
+            "@/configs/*": [
+                "src/configs/*"
+            ],
+            "@/stores/*": [
+                "src/stores/*"
             ]
         }
     },
