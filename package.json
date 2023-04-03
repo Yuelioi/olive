@@ -15,11 +15,7 @@
         "server": "nodemon"
     },
     "dependencies": {
-        "@feathersjs/authentication-client": "^5.0.2",
-        "@feathersjs/feathers": "^5.0.1",
-        "@feathersjs/socketio-client": "^5.0.2",
         "artplayer": "^4.6.2",
-        "feathers-hooks-common": "^7.0.2",
         "pinia": "^2.0.32",
         "socket.io": "^4.6.1",
         "socket.io-client": "^4.6.1",

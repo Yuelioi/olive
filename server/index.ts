@@ -7,7 +7,7 @@ import registerPlayerHandlers from './playerHandler'
 // import { Rooms } from './data'
 
 const server: HTTPServer = createServer()
-const port: number = 8080
+const port: number = 8081
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`)
