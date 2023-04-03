@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-import Header from '../components/HeaderTop.vue'
+import TheWelcome from '@/components/TheWelcome.vue'
+import Header from '@/components/HeaderTop.vue'
 
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { useStatusStore } from '../stores/userstatus'
-import { ClientData } from '@/configs/data'
+import { useStatusStore } from '@/stores/userstatus'
+
 const router = useRouter()
 const store = useStatusStore()
 store.userInfoInit()
-const { username, roomId, usertype, password, joinPassword } = storeToRefs(store)
+const { username, roomId, usertype, password, joinPassword, capacity } = storeToRefs(store)
 
 const createRoom = () => {
     // 生成随机的房间ID
@@ -33,7 +33,7 @@ const createRoom = () => {
 const joinRoom = () => {
     usertype.value = 'user'
 
-    if (roomId) {
+    if (roomId.value) {
         // 跳转到指定的房间页面
         router.push({
             name: `Room`,
@@ -61,7 +61,7 @@ const joinRoom = () => {
         <label for="password">密码:</label>
         <input type="text" name="password" v-model="password" />
         <label for="capacity">人数:</label>
-        <input type="text" name="capacity" v-model="ClientData.capacity" />
+        <input type="text" name="capacity" v-model="capacity" />
         <button @click="createRoom">创建房间</button>
         <br />
         <label for="roomId">房间号:</label>

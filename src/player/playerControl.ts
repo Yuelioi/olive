@@ -1,10 +1,12 @@
 import type { Artplayer } from '@/types/global'
 
+import { storeToRefs } from 'pinia'
+import { useStatusStore } from '../stores/userstatus'
+
+const store = useStatusStore()
+const { roomId, username, client, usertype } = storeToRefs(store)
+
 export const registerPlayerController = (art: Artplayer) => {
-    const props = defineProps(['client', 'roomId', 'usertype', 'username', 'vOptions'])
-    const client = props.client
-    const roomId = props.roomId
-    const usertype = props.usertype
     art.on('video:canplay', () => {
         console.info('video:canplay')
     })
@@ -14,10 +16,10 @@ export const registerPlayerController = (art: Artplayer) => {
     })
 
     art.on('pause', () => {
-        if (usertype == 'owner') {
-            client.emit('video-control', {
+        if (usertype.value == 'owner') {
+            client.value.emit('video-control', {
                 type: 'pause',
-                username: props.username,
+                username: username.value,
                 message: {
                     roomId: roomId
                 }
@@ -26,10 +28,10 @@ export const registerPlayerController = (art: Artplayer) => {
     })
 
     art.on('play', () => {
-        if (usertype == 'owner') {
-            client.emit('video-control', {
+        if (usertype.value == 'owner') {
+            client.value.emit('video-control', {
                 type: 'play',
-                username: props.username,
+                username: username.value,
                 message: {
                     roomId: roomId
                 }
@@ -38,10 +40,10 @@ export const registerPlayerController = (art: Artplayer) => {
     })
 
     art.on('url', (url: string) => {
-        if (usertype == 'owner') {
-            client.emit('video-control', {
+        if (usertype.value == 'owner') {
+            client.value.emit('video-control', {
                 type: 'url',
-                username: props.username,
+                username: username.value,
                 message: {
                     roomId: roomId,
                     url: url
@@ -51,10 +53,10 @@ export const registerPlayerController = (art: Artplayer) => {
     })
 
     art.on('seek', (currentTime: number) => {
-        if (usertype == 'owner') {
-            client.emit('video-control', {
+        if (usertype.value == 'owner') {
+            client.value.emit('video-control', {
                 type: 'seek',
-                username: props.username,
+                username: username.value,
                 message: {
                     currentTime: currentTime,
                     roomId: roomId

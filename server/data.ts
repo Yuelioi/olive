@@ -73,6 +73,10 @@ class PlayListManager {
     addVideo(video: Video) {
         this.playlist.videos.push(video)
     }
+
+    changeList(newList: Video[]) {
+        this.playlist.videos = newList
+    }
 }
 
 export const roomManage = new RoomManage()

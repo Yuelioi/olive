@@ -1,8 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { io } from 'socket.io-client'
-// import type { Socket } from 'socket.io-client'
-import { ClientData } from '@/configs/data'
+
+import type { Socket } from 'socket.io-client'
 
 export const useStatusStore = defineStore('userData', () => {
     const username = ref('')
@@ -10,6 +9,7 @@ export const useStatusStore = defineStore('userData', () => {
     const roomId = ref('')
     const password = ref('')
     const joinPassword = ref('')
+    const capacity = ref(10)
     const isJoined = ref(false)
 
     const userInfoInit = () => {
@@ -28,10 +28,7 @@ export const useStatusStore = defineStore('userData', () => {
             ? joinPassword.value
             : localStorage.getItem('joinPassword') || ''
     }
-
-    const userClient = () => {
-        return io(`localhost:${ClientData.port}`)
-    }
+    const client = ref<Socket>()
 
     return {
         username,
@@ -40,7 +37,8 @@ export const useStatusStore = defineStore('userData', () => {
         roomId,
         password,
         joinPassword,
-        userClient,
+        capacity,
+        client,
         userInfoInit
     } as {
         username: typeof username
@@ -49,7 +47,8 @@ export const useStatusStore = defineStore('userData', () => {
         roomId: typeof roomId
         password: typeof password
         joinPassword: typeof joinPassword
+        capacity: typeof capacity
         userInfoInit: typeof userInfoInit
-        userClient: any
+        client: any
     }
 })

@@ -7,8 +7,7 @@ export enum MessageType {
 
 export const ClientData = {
     port: 8081,
-    host: 'http://localhost:5173/',
-    capacity: 10
+    host: 'http://localhost:5173/'
 }
 
 export const vOptions = {
@@ -20,7 +19,7 @@ export const vOptions = {
     autoMini: true,
     screenshot: true,
     setting: true,
-    loop: true,
+    loop: false,
     flip: true,
     playbackRate: true,
     aspectRatio: true,

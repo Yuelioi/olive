@@ -20,28 +20,23 @@ import { MessageType } from '@/configs/data'
 import type { Message } from '@/types/client'
 
 const store = useStatusStore()
-
-let { username } = storeToRefs(store)
+const { username, client } = storeToRefs(store)
 
 const message = ref('')
 const messages = ref<Message[]>([])
 
 const sendMessage = () => {
-    const client = props.client
-
-    client.emit('message', {
+    client.value.emit('message', {
         type: MessageType.MESSAGE,
         username: username.value,
         message: message.value
     })
     message.value = ''
 }
-const props = defineProps(['client'])
 
 onMounted(() => {
     // 监听连接成功事件
 
-    const client = props.client
-    registerChat(client, messages)
+    registerChat(client.value, messages)
 })
 </script>

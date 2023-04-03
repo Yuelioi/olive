@@ -4,3 +4,8 @@ export interface Message {
     username: string
     message: any
 }
+
+export type Video = {
+    title: String
+    url: String
+}

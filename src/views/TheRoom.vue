@@ -4,8 +4,8 @@
             <h2>房间 {{ roomId }}</h2>
             <h2>用户名 {{ username }}</h2>
 
-            <ChatArea id="chat-area" :client="client" :roomId="roomId" :usertype="usertype" />
-            <vPlayer :client="client" :roomId="roomId" :usertype="usertype" />
+            <ChatArea id="chat-area" />
+            <vPlayer />
         </div>
     </section>
 </template>
@@ -13,36 +13,38 @@
 <script lang="ts" setup>
 import { onMounted, onBeforeUnmount } from 'vue'
 
-import ChatArea from '../components/ChatArea.vue'
-import vPlayer from '../components/VideoPlayer.vue'
+import ChatArea from '@/components/ChatArea.vue'
+import vPlayer from '@/components/VideoPlayer.vue'
 
-import { storeToRefs } from 'pinia'
-import { useStatusStore } from '../stores/userstatus'
-// import type { Socket } from 'socket.io-client'
-import { registerRoom } from '../clients/room'
+import { registerRoom } from '@/clients/room'
 import { ClientData } from '@/configs/data'
-const store = useStatusStore()
-const { username, roomId, usertype, isJoined } = storeToRefs(store)
-const client = store.userClient()
+import { io } from 'socket.io-client'
+
+import { useStatusStore } from '@/stores/userstatus'
+import { storeToRefs } from 'pinia'
+
+const { username, roomId, usertype, isJoined, client } = storeToRefs(useStatusStore())
 
 if (!roomId) {
     window.location.href = ClientData.host
 }
 
+client.value = io(`localhost:${ClientData.port}`)
 onMounted(() => {
-    registerRoom(client)
+    console.log(client.value)
+    registerRoom(client.value)
 })
 
 onBeforeUnmount(() => {
-    console.log('卸载')
-    client.emit('room', {
+    console.log('客户端卸载')
+    client.value.emit('room', {
         type: 'leave',
         usertype: usertype.value,
         username: username.value,
         roomId: roomId.value,
-        clientId: client.id
+        clientId: client.value.id
     })
 
-    client.close()
+    client.value.close()
 })
 </script>
