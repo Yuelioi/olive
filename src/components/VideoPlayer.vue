@@ -40,6 +40,8 @@ const submit_video = (usertype: string) => {
 
     if (usertype == 'owner') {
         art.url = video.value
+        // art.url =
+        //     'https://cn-gddg-ct-01-22.bilivideo.com/upgcxcode/42/70/1081807042/1081807042-1-208.mp4?e=ig8euxZM2rNcNbhMhzdVhwdlhzKzhwdVhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1680610666&gen=playurlv2&os=bcache&oi=1921313500&trid=00000d789a6d115d44e8a2369dc1cc827616T&mid=3493116380187461&platform=html5&upsig=544ac1b14abbe60aeec7581867fb00a6&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&cdnid=61322&bvc=vod&nettype=0&bw=343391&orderid=0,1&logo=80000000'
     }
 }
 

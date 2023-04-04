@@ -18,7 +18,7 @@ export default (io: Server, socket: Socket) => {
     }
 
     const onVideoControl = (message: Message) => {
-        io.emit('message', message)
+        io.emit('video-control', roomManage.getRoomById(message.message.clientId))
     }
 
     socket.on('video-list', onVideoList)

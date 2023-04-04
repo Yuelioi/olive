@@ -4,6 +4,7 @@ export type Room = {
     clientIds: string[]
     password: string | null
     capacity: number
+    videos: Video[]
 }
 
 export type PlayList = {

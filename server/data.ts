@@ -29,19 +29,25 @@ class RoomManage {
         return this.rooms.find((room) => room.roomId === roomId)
     }
 
+    getVideosByRoomId(roomId: string): Video[] | undefined {
+        return this.rooms.find((room) => room.roomId === roomId)?.videos
+    }
+
     addRoom(
         roomId: string,
         roomOwner: string,
         clientIds: string[] = [],
         password: string = '',
-        capacity: number = 10
+        capacity: number = 10,
+        videos: Video[] = []
     ): void {
         this.rooms.push({
             roomId: roomId,
             owner: roomOwner,
             clientIds: clientIds,
             password: password,
-            capacity: capacity
+            capacity: capacity,
+            videos: videos
         })
     }
     removeRoom(roomId: string) {
