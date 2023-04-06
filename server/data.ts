@@ -1,5 +1,9 @@
 import type { Room, clientId, Video, PlayList } from './types'
 
+/**
+ * @description: Manage Rooms
+ * @argument
+ */
 class RoomManage {
     rooms: Room[] = []
     constructor(rooms: Room[] = []) {
@@ -25,21 +29,32 @@ class RoomManage {
     getRoomOwner(roomId: string): clientId | undefined {
         return this.getRoomById(roomId)?.owner
     }
+
+    /**
+     * @description 基于clientId 返回房间
+     * @param roomId
+     * @returns
+     */
     getRoomById(roomId: string): Room | undefined {
         return this.rooms.find((room) => room.roomId === roomId)
     }
 
-    getVideosByRoomId(roomId: string): Video[] | undefined {
-        return this.rooms.find((room) => room.roomId === roomId)?.videos
-    }
-
+    /**
+     * 添加房间
+     * @param roomId
+     * @param roomOwner
+     * @param clientIds
+     * @param password
+     * @param capacity
+     * @param playlist
+     */
     addRoom(
         roomId: string,
         roomOwner: string,
         clientIds: string[] = [],
         password: string = '',
         capacity: number = 10,
-        videos: Video[] = []
+        playlist: Video[] = []
     ): void {
         this.rooms.push({
             roomId: roomId,
@@ -47,9 +62,14 @@ class RoomManage {
             clientIds: clientIds,
             password: password,
             capacity: capacity,
-            videos: videos
+            playlist: playlist
         })
     }
+
+    /**
+     * 移除房间
+     * @param roomId
+     */
     removeRoom(roomId: string) {
         const index = roomManage.rooms.findIndex((room) => room.roomId === roomId)
         if (index !== -1) {
@@ -57,6 +77,11 @@ class RoomManage {
         }
     }
 
+    /**
+     * 向房间添加用户
+     * @param room
+     * @param clientId
+     */
     addUser(room: Room, clientId: clientId) {
         if (!room.clientIds.includes(clientId)) {
             room.clientIds.push(clientId)
@@ -69,21 +94,19 @@ class RoomManage {
             room.clientIds?.splice(index, 1)
         }
     }
-}
 
-class PlayListManager {
-    playlist: PlayList = {
-        videos: []
-    }
-    constructor() {}
-    addVideo(video: Video) {
-        this.playlist.videos.push(video)
+    /**
+     * 获取房间播放列表
+     * @param roomId
+     * @returns
+     */
+    getPlaylist(roomId: string): Video[] | undefined {
+        return this.rooms.find((room) => room.roomId === roomId)?.playlist
     }
 
-    changeList(newList: Video[]) {
-        this.playlist.videos = newList
+    updatePlaylist(roomId: string, playlist: Video[]): void {
+        this.rooms.find((room) => room.roomId === roomId)!.playlist = playlist
     }
 }
 
 export const roomManage = new RoomManage()
-export const playlistManager = new PlayListManager()
