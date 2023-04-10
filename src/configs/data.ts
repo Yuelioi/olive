@@ -1,3 +1,4 @@
+// import type { Video } from './../../server/types'
 // TODO 名字不好 晚点改
 export enum MessageType {
     SYSTEM = 'system',
@@ -11,15 +12,34 @@ export const ClientData = {
     host: 'http://localhost:5173/'
 }
 
-export const eventTypes = {
-    info: {
-        name: 'info',
+export const EventTypes = {
+    CONNECT: {
+        NAME: 'connect'
+    },
+    SYSTEM: {
+        NAME: 'system',
         GET_USER_NUMBER: 'get_user_number'
     },
-    user: {
+    ROOM: {
+        NAME: 'room',
+        CREATE: 'create-room',
+        JOIN: 'join-room'
+    },
+    VIDEO: {
+        NAME: 'vide',
+        SEEK: 'seek',
+        PAUSE: 'pause',
+        PLAY: 'play',
+        URL: 'url'
+    },
+    USER: {
         SEND_MESSAGE: 'send_message'
     },
-    message: {}
+    MESSAGE: {
+        NAME: 'message',
+        USER: 'user',
+        SYSTEM: 'system'
+    }
 }
 
 export const vOptions = {

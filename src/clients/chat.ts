@@ -1,6 +1,7 @@
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
-import { MessageType } from '@/configs/data'
+import { EventTypes } from '@/configs/data'
+
 import type { Ref } from 'vue'
 import type { Socket } from 'socket.io-client'
 import type { Message } from '@/types/client'
@@ -15,27 +16,23 @@ export const registerChat = (client: Socket, messages: Ref<Message[]>) => {
     })
 
     // 监听服务器发来的消息
-    client.on('message', (msg: Message) => {
+    client.on(EventTypes.MESSAGE.NAME, (msg: Message) => {
         switch (msg.type) {
-            case MessageType.SYSTEM:
+            case EventTypes.MESSAGE.SYSTEM:
                 messages.value.push({
-                    type: MessageType.SYSTEM,
+                    type: EventTypes.MESSAGE.SYSTEM,
+                    id: Date.now(),
+                    username: 'system',
+                    message: msg.message
+                })
+                break
+            case EventTypes.MESSAGE.USER:
+                messages.value.push({
+                    type: EventTypes.MESSAGE.USER,
                     id: Date.now(),
                     username: msg.username,
                     message: msg.message
                 })
-                break
-            case MessageType.MESSAGE:
-                messages.value.push({
-                    type: MessageType.MESSAGE,
-                    id: Date.now(),
-                    username: msg.username,
-                    message: msg.message
-                })
-                break
-            // add more cases for other message types here
-            default:
-                // handle unknown message types
                 break
         }
     })
