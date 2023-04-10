@@ -18,7 +18,6 @@ import vPlayer from '@/components/VideoPlayer.vue'
 
 import { registerRoom } from '@/clients/room'
 import { ClientData } from '@/configs/data'
-import { io } from 'socket.io-client'
 
 import { useStatusStore } from '@/stores/userstatus'
 import { storeToRefs } from 'pinia'
@@ -29,7 +28,6 @@ if (!roomId) {
     window.location.href = ClientData.host
 }
 
-client.value = io(`localhost:${ClientData.port}`)
 onMounted(() => {
     console.log(client.value)
     registerRoom(client.value)

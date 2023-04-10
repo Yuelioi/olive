@@ -10,6 +10,7 @@ export const useStatusStore = defineStore('userData', () => {
     const password = ref('')
     const joinPassword = ref('')
     const capacity = ref(10)
+    const onlineUsers = ref(1)
     const isJoined = ref(false)
 
     const userInfoInit = () => {
@@ -34,6 +35,7 @@ export const useStatusStore = defineStore('userData', () => {
         username,
         isJoined,
         usertype,
+        onlineUsers,
         roomId,
         password,
         joinPassword,
@@ -44,6 +46,7 @@ export const useStatusStore = defineStore('userData', () => {
         username: typeof username
         isJoined: typeof isJoined
         usertype: typeof usertype
+        onlineUsers: typeof onlineUsers
         roomId: typeof roomId
         password: typeof password
         joinPassword: typeof joinPassword

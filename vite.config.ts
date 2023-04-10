@@ -11,6 +11,8 @@ export default defineConfig({
     plugins: [vue(), vueJsx()],
     resolve: {
         alias: {
+            '@/global': path.resolve(__dirname, 'global'),
+
             '@': fileURLToPath(new URL('./src', import.meta.url)),
             '@/types': path.resolve(__dirname, 'src/types'),
             '@/assets': path.resolve(__dirname, 'src/assets'),

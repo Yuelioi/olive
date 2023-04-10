@@ -5,11 +5,37 @@ import Header from '@/components/HeaderTop.vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
+import { io } from 'socket.io-client'
+import { ClientData } from '@/configs/data'
+import type { Message } from '@/types/client'
+import { MessageType } from '@/configs/data'
 
 const router = useRouter()
 const store = useStatusStore()
 store.userInfoInit()
-const { username, roomId, usertype, password, joinPassword, capacity } = storeToRefs(store)
+const { username, roomId, usertype, password, joinPassword, capacity, client, onlineUsers } =
+    storeToRefs(store)
+
+client.value = io(`localhost:${ClientData.port}`)
+
+client.value.on('connect', () => {
+    client.value.emit('info', {
+        type: 'get_users',
+        usertype: usertype.value,
+        username: username.value,
+        clientId: client.value.id
+    })
+
+    client.value.on(MessageType.INFO, (msg: Message) => {
+        console.log(msg)
+        switch (msg.type) {
+            // 获取在线人数
+            case 'get_user_number':
+                onlineUsers.value = msg.message.onlineUsers
+                break
+        }
+    })
+})
 
 const createRoom = () => {
     // 生成随机的房间ID
@@ -69,5 +95,7 @@ const joinRoom = () => {
         <label for="joinPassword">密码:</label>
         <input type="text" name="joinPassword" v-model="joinPassword" />
         <button @click="joinRoom">加入房间</button>
+
+        <p>{{ onlineUsers }}</p>
     </main>
 </template>

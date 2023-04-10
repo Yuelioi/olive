@@ -2,12 +2,24 @@
 export enum MessageType {
     SYSTEM = 'system',
     MESSAGE = 'message',
-    ROOM = 'room'
+    ROOM = 'room',
+    INFO = 'info'
 }
 
 export const ClientData = {
     port: 8081,
     host: 'http://localhost:5173/'
+}
+
+export const eventTypes = {
+    info: {
+        name: 'info',
+        GET_USER_NUMBER: 'get_user_number'
+    },
+    user: {
+        SEND_MESSAGE: 'send_message'
+    },
+    message: {}
 }
 
 export const vOptions = {

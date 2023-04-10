@@ -3,6 +3,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io'
 import registerRoomHandlers from './roomHandler'
 import registerChatHandlers from './chatHandler'
 import registerPlayerHandlers from './playerHandler'
+import registerInfo from './info'
 
 // import { Rooms } from './data'
 
@@ -35,6 +36,7 @@ const onConnection = (socket: Socket) => {
     registerRoomHandlers(io, socket)
     registerChatHandlers(io, socket)
     registerPlayerHandlers(io, socket)
+    registerInfo(io, socket)
 }
 
 io.on('connection', onConnection)
