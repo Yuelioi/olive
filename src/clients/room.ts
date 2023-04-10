@@ -5,15 +5,14 @@ import { EventTypes } from '@/configs/data'
 import type { Socket } from 'socket.io-client'
 
 const store = useStatusStore()
-const { username, roomId, usertype, password, joinPassword, isJoined, capacity } =
-    storeToRefs(store)
+const { username, roomId, usertype, password, isJoined } = storeToRefs(store)
 
 store.userInfoInit()
 
 export const registerRoom = (client: Socket) => {
     console.log('客户端注册')
 
-    client.on(EventTypes.CONNECT.NAME, () => {
+    client.on('connect', () => {
         const msg = {
             type: usertype.value === 'user' ? EventTypes.ROOM.JOIN : EventTypes.ROOM.CREATE,
             username: username.value,
@@ -27,7 +26,7 @@ export const registerRoom = (client: Socket) => {
     })
 
     client.on(EventTypes.ROOM.NAME, (msg: any) => {
-        if (msg.type == 'join') {
+        if (msg.type == EventTypes.ROOM.JOIN) {
             if (msg.status) {
                 console.log('加入成功')
                 isJoined.value = true

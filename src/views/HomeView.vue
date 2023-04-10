@@ -5,10 +5,13 @@ import Header from '@/components/HeaderTop.vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
+
 import { io } from 'socket.io-client'
 import { ClientData } from '@/configs/data'
+
+import { EventTypes } from '@/configs/data'
+
 import type { Message } from '@/types/client'
-import { MessageType } from '@/configs/data'
 
 const router = useRouter()
 const store = useStatusStore()
@@ -19,18 +22,17 @@ const { username, roomId, usertype, password, joinPassword, capacity, client, on
 client.value = io(`localhost:${ClientData.port}`)
 
 client.value.on('connect', () => {
-    client.value.emit('info', {
-        type: 'get_users',
+    client.value.emit(EventTypes.SYSTEM.NAME, {
+        type: EventTypes.SYSTEM.GET_USER_NUMBER,
         usertype: usertype.value,
         username: username.value,
         clientId: client.value.id
     })
 
-    client.value.on(MessageType.INFO, (msg: Message) => {
-        console.log(msg)
+    client.value.on(EventTypes.SYSTEM.NAME, (msg: Message) => {
         switch (msg.type) {
             // 获取在线人数
-            case 'get_user_number':
+            case EventTypes.SYSTEM.GET_USER_NUMBER:
                 onlineUsers.value = msg.message.onlineUsers
                 break
         }

@@ -16,15 +16,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import Artplayer from 'artplayer'
 
 import { registerPlayerClient } from '@/clients/vplayer'
-import { storeToRefs } from 'pinia'
 import { usePlayerStore } from '@/stores/player'
-import { vOptions } from '@/configs/data'
 import { useStatusStore } from '@/stores/userstatus'
+
+import { EventTypes } from '@/configs/data'
+import { vOptions } from '@/configs/data'
+
 const { videos } = storeToRefs(usePlayerStore())
 const { addVideo } = usePlayerStore()
 
@@ -64,8 +67,8 @@ onMounted(() => {
     // 用户进入房间进行同步
 
     if (usertype.value == 'user') {
-        client.value.emit('message', {
-            type: 'video-sync',
+        client.value.emit(EventTypes.VIDEO.NAME, {
+            type: EventTypes.VIDEO.SYNC,
             roomId: roomId,
             username: username.value
         })

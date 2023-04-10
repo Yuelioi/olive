@@ -13,10 +13,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useStatusStore } from '../stores/userstatus'
-import { registerChat } from '../clients/chat'
+import { useStatusStore } from '@/stores/userstatus'
+import { registerChat } from '@/clients/chat'
 
-import { MessageType } from '@/configs/data'
+import { EventTypes } from '@/configs/data'
+
 import type { Message } from '@/types/client'
 
 const store = useStatusStore()
@@ -26,8 +27,8 @@ const message = ref('')
 const messages = ref<Message[]>([])
 
 const sendMessage = () => {
-    client.value.emit('message', {
-        type: MessageType.MESSAGE,
+    client.value.emit(EventTypes.MESSAGE.NAME, {
+        type: EventTypes.MESSAGE.USER,
         username: username.value,
         message: message.value
     })

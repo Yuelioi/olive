@@ -18,6 +18,7 @@ import vPlayer from '@/components/VideoPlayer.vue'
 
 import { registerRoom } from '@/clients/room'
 import { ClientData } from '@/configs/data'
+import { EventTypes } from '@/configs/data'
 
 import { useStatusStore } from '@/stores/userstatus'
 import { storeToRefs } from 'pinia'
@@ -35,8 +36,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     console.log('客户端卸载')
-    client.value.emit('room', {
-        type: 'leave',
+    client.value.emit(EventTypes.ROOM.NAME, {
+        type: EventTypes.ROOM.LEAVE,
         usertype: usertype.value,
         username: username.value,
         roomId: roomId.value,

@@ -1,11 +1,5 @@
 // import type { Video } from './../../server/types'
 // TODO 名字不好 晚点改
-export enum MessageType {
-    SYSTEM = 'system',
-    MESSAGE = 'message',
-    ROOM = 'room',
-    INFO = 'info'
-}
 
 export const ClientData = {
     port: 8081,
@@ -13,9 +7,6 @@ export const ClientData = {
 }
 
 export const EventTypes = {
-    CONNECT: {
-        NAME: 'connect'
-    },
     SYSTEM: {
         NAME: 'system',
         GET_USER_NUMBER: 'get_user_number'
@@ -23,14 +14,17 @@ export const EventTypes = {
     ROOM: {
         NAME: 'room',
         CREATE: 'create-room',
-        JOIN: 'join-room'
+        JOIN: 'join-room',
+        LEAVE: 'leave',
+        GET_PLAYLIST: 'get_playlist'
     },
     VIDEO: {
-        NAME: 'vide',
+        NAME: 'video',
         SEEK: 'seek',
         PAUSE: 'pause',
         PLAY: 'play',
-        URL: 'url'
+        URL: 'url',
+        SYNC: 'sync'
     },
     USER: {
         SEND_MESSAGE: 'send_message'

@@ -1,47 +1,45 @@
 import type { Message } from '@/types/client'
 import type { Socket, Artplayer } from '@/types/global'
 
-import { usePlayerStore } from '@/stores/player'
-// import { storeToRefs } from 'pinia'
-// const { videos } = storeToRefs(usePlayerStore())
-const { updateVideos } = usePlayerStore()
-
-import { useStatusStore } from '@/stores/userstatus'
 import { storeToRefs } from 'pinia'
+import { usePlayerStore } from '@/stores/player'
+import { useStatusStore } from '@/stores/userstatus'
+
+import { EventTypes } from '@/configs/data'
+
+const { updateVideos } = usePlayerStore()
 const store = useStatusStore()
 const { roomId, usertype } = storeToRefs(store)
 
 export const registerPlayerClient = (client: Socket, art: Artplayer) => {
-    client.on('video-list', (msg: Message) => {
+    client.on(EventTypes.ROOM.NAME, (msg: Message) => {
         switch (msg.type) {
-            case 'get':
+            case EventTypes.ROOM.GET_PLAYLIST:
                 updateVideos(msg.message.playlist)
                 break
         }
     })
 
-    client.on('video-control', (msg: Message) => {
-        switch (msg.type) {
-            case 'seek':
-                if (usertype.value == 'user' && roomId == msg.message.roomId) {
+    client.on(EventTypes.VIDEO.NAME, (msg: Message) => {
+        if (usertype.value == 'user' && roomId == msg.message.roomId) {
+            switch (msg.type) {
+                case EventTypes.VIDEO.SEEK:
                     art.currentTime = msg.message.currentTime
-                }
-                break
-            case 'pause':
-                if (usertype.value == 'user' && roomId == msg.message.roomId) {
+
+                    break
+                case EventTypes.VIDEO.PAUSE:
                     art.pause()
-                }
-                break
-            case 'play':
-                if (usertype.value == 'user' && roomId == msg.message.roomId) {
+
+                    break
+                case EventTypes.VIDEO.PLAY:
                     art.play()
-                }
-                break
-            case 'url':
-                if (usertype.value == 'user' && roomId == msg.message.roomId) {
+
+                    break
+                case EventTypes.VIDEO.URL:
                     art.url = msg.message.url
-                }
-                break
+
+                    break
+            }
         }
     })
 }
