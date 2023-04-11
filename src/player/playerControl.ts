@@ -3,7 +3,7 @@ import type { Artplayer } from '@/types/global'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
 
-import { EventTypes } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
 
 const store = useStatusStore()
 const { roomId, username, client, usertype } = storeToRefs(store)

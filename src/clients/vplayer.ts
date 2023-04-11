@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { usePlayerStore } from '@/stores/player'
 import { useStatusStore } from '@/stores/userstatus'
 
-import { EventTypes } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
 
 const { updateVideos } = usePlayerStore()
 const store = useStatusStore()

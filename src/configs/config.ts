@@ -6,36 +6,6 @@ export const ClientData = {
     host: 'http://localhost:5173/'
 }
 
-export const EventTypes = {
-    SYSTEM: {
-        NAME: 'system',
-        GET_USER_NUMBER: 'get_user_number'
-    },
-    ROOM: {
-        NAME: 'room',
-        CREATE: 'create-room',
-        JOIN: 'join-room',
-        LEAVE: 'leave',
-        GET_PLAYLIST: 'get_playlist'
-    },
-    VIDEO: {
-        NAME: 'video',
-        SEEK: 'seek',
-        PAUSE: 'pause',
-        PLAY: 'play',
-        URL: 'url',
-        SYNC: 'sync'
-    },
-    USER: {
-        SEND_MESSAGE: 'send_message'
-    },
-    MESSAGE: {
-        NAME: 'message',
-        USER: 'user',
-        SYSTEM: 'system'
-    }
-}
-
 export const vOptions = {
     isLive: false,
     muted: false,

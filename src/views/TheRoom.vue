@@ -17,8 +17,8 @@ import ChatArea from '@/components/ChatArea.vue'
 import vPlayer from '@/components/VideoPlayer.vue'
 
 import { registerRoom } from '@/clients/room'
-import { ClientData } from '@/configs/data'
-import { EventTypes } from '@/configs/data'
+import { ClientData } from '@/configs/config'
+import { EventTypes } from '@/configs/event'
 
 import { useStatusStore } from '@/stores/userstatus'
 import { storeToRefs } from 'pinia'

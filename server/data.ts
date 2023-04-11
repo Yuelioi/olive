@@ -1,7 +1,7 @@
-import type { Room, clientId, Video, PlayList } from './types'
+import type { Room, clientId, Video } from './types'
 
 /**
- * @description: Manage Rooms
+ * @description: 房间管理系统
  * @argument
  */
 class RoomManage {
@@ -10,6 +10,10 @@ class RoomManage {
         this.rooms = rooms
     }
 
+    /**
+     * 替换房间
+     * @param newRooms
+     */
     changeRooms(newRooms: Room[] = []) {
         this.rooms = newRooms
     }
@@ -33,7 +37,7 @@ class RoomManage {
     /**
      * @description 基于clientId 返回房间
      * @param roomId
-     * @returns
+     * @returns Room
      */
     getRoomById(roomId: string): Room | undefined {
         return this.rooms.find((room) => room.roomId === roomId)
@@ -88,6 +92,11 @@ class RoomManage {
         }
     }
 
+    /**
+     * 移除当前房间的用户
+     * @param room
+     * @param clientId
+     */
     removeUser(room: Room, clientId: clientId) {
         const index = room.clientIds?.findIndex((item) => item === clientId)
         if (!index && index !== -1) {

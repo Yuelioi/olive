@@ -16,7 +16,7 @@ import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
 import { registerChat } from '@/clients/chat'
 
-import { EventTypes } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
 
 import type { Message } from '@/types/client'
 

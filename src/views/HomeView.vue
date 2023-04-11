@@ -7,9 +7,9 @@ import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
 
 import { io } from 'socket.io-client'
-import { ClientData } from '@/configs/data'
+import { ClientData } from '@/configs/config'
 
-import { EventTypes } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
 
 import type { Message } from '@/types/client'
 
@@ -22,17 +22,17 @@ const { username, roomId, usertype, password, joinPassword, capacity, client, on
 client.value = io(`localhost:${ClientData.port}`)
 
 client.value.on('connect', () => {
-    client.value.emit(EventTypes.SYSTEM.NAME, {
-        type: EventTypes.SYSTEM.GET_USER_NUMBER,
+    client.value.emit(EventTypes.SERVER.NAME, {
+        type: EventTypes.SERVER.GET_SERVER_USERS,
         usertype: usertype.value,
         username: username.value,
         clientId: client.value.id
     })
 
-    client.value.on(EventTypes.SYSTEM.NAME, (msg: Message) => {
+    client.value.on(EventTypes.SERVER.NAME, (msg: Message) => {
         switch (msg.type) {
             // 获取在线人数
-            case EventTypes.SYSTEM.GET_USER_NUMBER:
+            case EventTypes.SERVER.GET_SERVER_USERS:
                 onlineUsers.value = msg.message.onlineUsers
                 break
         }

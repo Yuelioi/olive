@@ -1,6 +1,6 @@
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
-import { EventTypes } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
 
 import type { Socket } from 'socket.io-client'
 

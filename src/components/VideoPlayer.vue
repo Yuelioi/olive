@@ -25,8 +25,8 @@ import { registerPlayerClient } from '@/clients/vplayer'
 import { usePlayerStore } from '@/stores/player'
 import { useStatusStore } from '@/stores/userstatus'
 
-import { EventTypes } from '@/configs/data'
-import { vOptions } from '@/configs/data'
+import { EventTypes } from '@/configs/event'
+import { vOptions } from '@/configs/config'
 
 const { videos } = storeToRefs(usePlayerStore())
 const { addVideo } = usePlayerStore()
