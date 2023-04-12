@@ -1,5 +1,6 @@
 import type { Server, Socket } from 'socket.io'
 import { roomManage } from './data'
+import { EventTypes } from './event'
 
 export default (io: Server, socket: Socket) => {
     const roomHandler = (message: any) => {
@@ -19,14 +20,14 @@ export default (io: Server, socket: Socket) => {
         console.log(roomManage.rooms)
 
         switch (message.type) {
-            case 'create':
+            case EventTypes.ROOM.CREATE:
                 if (!roomIds.includes(message.roomId)) {
                     const curRooms = Array.from(socket.rooms)
                     curRooms.push(message.roomId)
                     socket.join(curRooms)
                 } else {
-                    socket.emit('room', {
-                        type: 'join',
+                    socket.emit(EventTypes.ROOM.NAME, {
+                        type: EventTypes.ROOM.JOIN,
                         username: message.username,
                         roomId: message.roomId,
                         message: '房间已存在',
@@ -44,15 +45,15 @@ export default (io: Server, socket: Socket) => {
                     message.capacity
                 )
 
-                socket.emit('room', {
-                    type: 'join',
+                socket.emit(EventTypes.ROOM.NAME, {
+                    type: EventTypes.ROOM.JOIN,
                     username: message.username,
                     roomId: message.roomId,
                     message: '成功加入房间',
                     status: true
                 })
                 break
-            case 'join':
+            case EventTypes.ROOM.JOIN:
                 {
                     const room = roomManage.getRoomById(message.roomId)
 
@@ -67,8 +68,8 @@ export default (io: Server, socket: Socket) => {
                         socket.join(curRooms)
 
                         room.clientIds.push(socket.id)
-                        socket.emit('room', {
-                            type: 'join',
+                        socket.emit(EventTypes.ROOM.NAME, {
+                            type: EventTypes.ROOM.JOIN,
                             username: message.username,
                             roomId: message.roomId,
                             message: '成功加入房间',
@@ -77,8 +78,8 @@ export default (io: Server, socket: Socket) => {
                         roomManage.addRoom(socket.id, message.username)
                         roomManage.addUser(room, message.clientId)
                     } else {
-                        socket.emit('room', {
-                            type: 'join',
+                        socket.emit(EventTypes.ROOM.NAME, {
+                            type: EventTypes.ROOM.JOIN,
                             username: message.username,
                             roomId: message.roomId,
                             message: '房间不存在,密码错误或者人数已满',
@@ -87,12 +88,12 @@ export default (io: Server, socket: Socket) => {
                     }
                 }
                 break
-            case 'leave': {
+            case EventTypes.ROOM.LEAVE: {
                 const room = roomManage.getRoomById(message.roomId)
                 if (room) {
                     if (message.usertype === 'owner' && message.username === room.owner) {
-                        io.emit('message', {
-                            type: 'leave',
+                        io.emit(EventTypes.ROOM.NAME, {
+                            type: EventTypes.ROOM.LEAVE,
                             username: message.username,
                             roomId: message.roomId,
                             message: '房主已解散房间'
@@ -100,8 +101,8 @@ export default (io: Server, socket: Socket) => {
                         roomManage.removeRoom(message.roomId)
                         io.socketsLeave(message.roomId)
                     } else {
-                        io.emit('room', {
-                            type: 'leave',
+                        io.emit(EventTypes.ROOM.NAME, {
+                            type: EventTypes.ROOM.LEAVE,
                             username: message.username,
                             roomId: message.roomId,
                             message: '用户离开房间'
@@ -116,5 +117,5 @@ export default (io: Server, socket: Socket) => {
         console.log('执行后')
         console.log(roomManage.rooms)
     }
-    socket.on('room', roomHandler)
+    socket.on(EventTypes.ROOM.NAME, roomHandler)
 }

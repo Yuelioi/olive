@@ -1,3 +1,4 @@
+// socket 的各种事件
 export const EventTypes = {
     SERVER: {
         NAME: 'server',
@@ -17,6 +18,10 @@ export const EventTypes = {
         PLAY: 'play',
         URL: 'url',
         SYNC: 'sync'
+    },
+    PLAYLIST: {
+        NAME: 'playlist',
+        GET_VIDEOS: 'get_video_playlist'
     },
     USER: {
         SEND_MESSAGE: 'send_message'

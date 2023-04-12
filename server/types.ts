@@ -1,3 +1,6 @@
+/**
+ * 一个房间
+ */
 export type Room = {
     roomId: string
     owner: string
@@ -7,14 +10,23 @@ export type Room = {
     playlist: Video[]
 }
 
+/**
+ * 播放列表
+ */
 export type PlayList = {
     clientId?: clientId
     videos: Video[]
 }
 
+/**
+ * 视频
+ */
 export type Video = {
     title: String
     url: String
 }
 
+/**
+ * client ID
+ */
 export type clientId = string

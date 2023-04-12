@@ -5,8 +5,6 @@ import registerChatHandlers from './chatHandler'
 import registerPlayerHandlers from './playerHandler'
 import registerInfo from './info'
 
-// import { Rooms } from './data'
-
 const server: HTTPServer = createServer()
 const port: number = 8081
 

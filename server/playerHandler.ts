@@ -1,27 +1,27 @@
 import type { Server, Socket } from 'socket.io'
 import type { Message } from '@/types/client'
 import { roomManage } from './data'
+import { EventTypes } from './event'
 
+/**
+ * 播放器管理
+ */
 export default (io: Server, socket: Socket) => {
+    // todo
     const onVideoList = (message: Message) => {
         switch (message.type) {
-            case 'create':
+            case EventTypes.PLAYLIST.GET_VIDEOS:
                 break
         }
-        io.emit('message', {
-            type: 'video',
+        io.emit(EventTypes.PLAYLIST.NAME, {
+            type: EventTypes.PLAYLIST.GET_VIDEOS,
             roomManage
         })
     }
     const onVideoSync = (message: Message) => {
-        io.emit('message', message)
+        io.emit(EventTypes.VIDEO.NAME, message)
     }
 
-    const onVideoControl = (message: Message) => {
-        io.emit('video-control', roomManage.getRoomById(message.message.clientId))
-    }
-
-    socket.on('video-list', onVideoList)
-    socket.on('video-sync', onVideoSync)
-    socket.on('video-control', onVideoControl)
+    socket.on(EventTypes.PLAYLIST.NAME, onVideoList)
+    socket.on(EventTypes.VIDEO.NAME, onVideoSync)
 }
