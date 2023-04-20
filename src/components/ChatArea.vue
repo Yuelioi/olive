@@ -14,9 +14,7 @@
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
-import { registerChat } from '@/clients/chat'
-
-import { EventTypes } from '@/configs/event'
+import { registerMessage, sendMessage } from '@/clients/message'
 
 import type { Message } from '@/types/client'
 
@@ -26,18 +24,8 @@ const { username, client } = storeToRefs(store)
 const message = ref('')
 const messages = ref<Message[]>([])
 
-const sendMessage = () => {
-    client.value.emit(EventTypes.MESSAGE.NAME, {
-        type: EventTypes.MESSAGE.USER,
-        username: username.value,
-        message: message.value
-    })
-    message.value = ''
-}
-
 onMounted(() => {
-    // 监听连接成功事件
-
-    registerChat(client.value, messages)
+    // 注册消息事件
+    registerMessage(client.value, messages)
 })
 </script>

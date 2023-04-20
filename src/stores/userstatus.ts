@@ -12,22 +12,18 @@ export const useStatusStore = defineStore('userData', () => {
     const capacity = ref(10)
     const onlineUsers = ref(1)
     const isJoined = ref(false)
+    const message = ref('')
+    const clientId = ref('')
 
     const userInfoInit = () => {
-        username.value = username.value
-            ? username.value
-            : localStorage.getItem('username') || 'Anonymous'
-
-        roomId.value = roomId.value ? roomId.value : localStorage.getItem('roomId') || ''
-        usertype.value = usertype.value
-            ? usertype.value
-            : localStorage.getItem('usertype') || 'user'
+        username.value = username.value || localStorage.getItem('username') || 'Anonymous'
+        roomId.value = roomId.value || localStorage.getItem('roomId') || ''
+        usertype.value = usertype.value || localStorage.getItem('usertype') || 'user'
         password.value = password.value
             ? joinPassword.value
             : localStorage.getItem('password') || ''
-        joinPassword.value = joinPassword.value
-            ? joinPassword.value
-            : localStorage.getItem('joinPassword') || ''
+        joinPassword.value = joinPassword.value || localStorage.getItem('joinPassword') || ''
+        clientId.value = clientId.value || sessionStorage.getItem('clientId') || ''
     }
     const client = ref<Socket>()
 
@@ -35,17 +31,20 @@ export const useStatusStore = defineStore('userData', () => {
         username,
         isJoined,
         usertype,
+        message,
         onlineUsers,
         roomId,
         password,
         joinPassword,
         capacity,
         client,
+        clientId,
         userInfoInit
     } as {
         username: typeof username
         isJoined: typeof isJoined
         usertype: typeof usertype
+        message: typeof message
         onlineUsers: typeof onlineUsers
         roomId: typeof roomId
         password: typeof password
@@ -53,5 +52,6 @@ export const useStatusStore = defineStore('userData', () => {
         capacity: typeof capacity
         userInfoInit: typeof userInfoInit
         client: any
+        clientId: typeof clientId
     }
 })

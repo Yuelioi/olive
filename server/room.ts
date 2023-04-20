@@ -3,6 +3,10 @@ import { roomManage } from './data'
 import { EventTypes } from './event'
 
 export default (io: Server, socket: Socket) => {
+    /**
+     * 管理房间加入离开
+     * @param message
+     */
     const roomHandler = (message: any) => {
         console.log('预处理')
         console.log(roomManage.rooms)
@@ -46,10 +50,10 @@ export default (io: Server, socket: Socket) => {
                 )
 
                 socket.emit(EventTypes.ROOM.NAME, {
-                    type: EventTypes.ROOM.JOIN,
+                    type: EventTypes.ROOM.CREATE,
                     username: message.username,
                     roomId: message.roomId,
-                    message: '成功加入房间',
+                    message: '房间创建成功',
                     status: true
                 })
                 break
@@ -58,6 +62,10 @@ export default (io: Server, socket: Socket) => {
                     const room = roomManage.getRoomById(message.roomId)
 
                     // 如果有房间, 并且没满
+                    if (room) {
+                        console.log(room.clientIds?.length < room.capacity)
+                        console.log(room.password === message.password)
+                    }
                     if (
                         room &&
                         room.clientIds?.length < room.capacity &&

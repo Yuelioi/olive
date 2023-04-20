@@ -2,38 +2,55 @@ import { storeToRefs } from 'pinia'
 import { useStatusStore } from '../stores/userstatus'
 import { EventTypes } from '@/configs/event'
 
-import type { Socket } from 'socket.io-client'
-
 const store = useStatusStore()
-const { username, roomId, usertype, password, isJoined } = storeToRefs(store)
+const { username, roomId, usertype, password, isJoined, client, capacity } = storeToRefs(store)
 
 store.userInfoInit()
 
-export const registerRoom = (client: Socket) => {
+export const registerRoom = () => {
     console.log('客户端注册')
 
-    client.on('connect', () => {
-        const msg = {
-            type: usertype.value === 'user' ? EventTypes.ROOM.JOIN : EventTypes.ROOM.CREATE,
-            username: username.value,
-            roomId: roomId.value,
-            password: password.value,
-            clientId: client.id,
-            capacity: 0
-        }
+    // 连接后
+    const msg = {
+        type: usertype.value === 'user' ? EventTypes.ROOM.JOIN : EventTypes.ROOM.CREATE,
+        username: username.value,
+        roomId: roomId.value,
+        password: password.value,
+        clientId: client.value.id,
+        capacity: capacity.value
+    }
 
-        client.emit(EventTypes.ROOM.NAME, msg)
-    })
+    client.value.emit(EventTypes.ROOM.NAME, msg)
 
-    client.on(EventTypes.ROOM.NAME, (msg: any) => {
-        if (msg.type == EventTypes.ROOM.JOIN) {
+    client.value.on(EventTypes.ROOM.NAME, (msg: any) => {
+        if (msg.type == EventTypes.ROOM.CREATE) {
             if (msg.status) {
-                console.log('加入成功')
+                console.log(msg.message)
                 isJoined.value = true
             } else {
                 isJoined.value = false
-                alert('加入失败,房间不存在或者密码错误')
+                console.log(msg.message)
+            }
+        } else if (msg.type == EventTypes.ROOM.JOIN) {
+            if (msg.status) {
+                console.log(msg.message)
+                isJoined.value = true
+            } else {
+                isJoined.value = false
+                console.log(msg.message)
             }
         }
     })
+}
+
+export const leaveRoom = () => {
+    client.value.emit(EventTypes.ROOM.NAME, {
+        type: EventTypes.ROOM.LEAVE,
+        usertype: usertype.value,
+        username: username.value,
+        roomId: roomId.value,
+        clientId: client.value.id
+    })
+
+    client.value.close()
 }

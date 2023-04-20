@@ -1,42 +1,21 @@
 <script setup lang="ts">
 import TheWelcome from '@/components/TheWelcome.vue'
 import Header from '@/components/HeaderTop.vue'
-
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
 
-import { io } from 'socket.io-client'
-import { ClientData } from '@/configs/config'
-
-import { EventTypes } from '@/configs/event'
-
-import type { Message } from '@/types/client'
+import { registerServer } from '@/clients/server'
 
 const router = useRouter()
 const store = useStatusStore()
 store.userInfoInit()
-const { username, roomId, usertype, password, joinPassword, capacity, client, onlineUsers } =
+const { username, roomId, usertype, password, joinPassword, capacity, onlineUsers } =
     storeToRefs(store)
 
-client.value = io(`localhost:${ClientData.port}`)
-
-client.value.on('connect', () => {
-    client.value.emit(EventTypes.SERVER.NAME, {
-        type: EventTypes.SERVER.GET_SERVER_USERS,
-        usertype: usertype.value,
-        username: username.value,
-        clientId: client.value.id
-    })
-
-    client.value.on(EventTypes.SERVER.NAME, (msg: Message) => {
-        switch (msg.type) {
-            // 获取在线人数
-            case EventTypes.SERVER.GET_SERVER_USERS:
-                onlineUsers.value = msg.message.onlineUsers
-                break
-        }
-    })
+onMounted(() => {
+    registerServer()
 })
 
 const createRoom = () => {
@@ -98,6 +77,6 @@ const joinRoom = () => {
         <input type="text" name="joinPassword" v-model="joinPassword" />
         <button @click="joinRoom">加入房间</button>
 
-        <p>{{ onlineUsers }}</p>
+        <p>当前在线总人数:{{ onlineUsers }}</p>
     </main>
 </template>

@@ -21,12 +21,14 @@ import { storeToRefs } from 'pinia'
 
 import Artplayer from 'artplayer'
 
-import { registerPlayerClient } from '@/clients/vplayer'
+import { registerVideoClient } from '@/clients/video'
 import { usePlayerStore } from '@/stores/player'
 import { useStatusStore } from '@/stores/userstatus'
 
 import { EventTypes } from '@/configs/event'
 import { vOptions } from '@/configs/config'
+
+import { registerPlayerController } from '../player/playerControl'
 
 const { videos } = storeToRefs(usePlayerStore())
 const { addVideo } = usePlayerStore()
@@ -62,7 +64,9 @@ onMounted(() => {
         }
     })
 
-    registerPlayerClient(client.value, art)
+    registerVideoClient(client.value, art)
+
+    registerPlayerController(art)
 
     // 用户进入房间进行同步
 

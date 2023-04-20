@@ -14,7 +14,15 @@ export const registerPlayerController = (art: Artplayer) => {
     })
 
     art.on('restart', () => {
-        console.info('video:canplay')
+        if (usertype.value == 'owner') {
+            client.value.emit(EventTypes.VIDEO.NAME, {
+                type: EventTypes.VIDEO.RESTART,
+                username: username.value,
+                message: {
+                    roomId: roomId.value
+                }
+            })
+        }
     })
 
     art.on('pause', () => {
@@ -23,7 +31,7 @@ export const registerPlayerController = (art: Artplayer) => {
                 type: EventTypes.VIDEO.PAUSE,
                 username: username.value,
                 message: {
-                    roomId: roomId
+                    roomId: roomId.value
                 }
             })
         }
@@ -31,11 +39,12 @@ export const registerPlayerController = (art: Artplayer) => {
 
     art.on('play', () => {
         if (usertype.value == 'owner') {
+          
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.PLAY,
                 username: username.value,
                 message: {
-                    roomId: roomId
+                    roomId: roomId.value
                 }
             })
         }
@@ -47,7 +56,7 @@ export const registerPlayerController = (art: Artplayer) => {
                 type: EventTypes.VIDEO.URL,
                 username: username.value,
                 message: {
-                    roomId: roomId,
+                    roomId: roomId.value,
                     url: url
                 }
             })
@@ -61,7 +70,7 @@ export const registerPlayerController = (art: Artplayer) => {
                 username: username.value,
                 message: {
                     currentTime: currentTime,
-                    roomId: roomId
+                    roomId: roomId.value
                 }
             })
         }

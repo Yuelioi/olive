@@ -9,8 +9,9 @@ import type { Message } from '@/types/client'
 const store = useStatusStore()
 store.userInfoInit()
 
-const { roomId } = storeToRefs(store)
-export const registerChat = (client: Socket, messages: Ref<Message[]>) => {
+const { roomId, client, username, message } = storeToRefs(store)
+
+export const registerMessage = (client: Socket, messages: Ref<Message[]>) => {
     client.on('connect', () => {
         console.log(`聊天已成功连接${roomId.value}`)
     })
@@ -36,4 +37,13 @@ export const registerChat = (client: Socket, messages: Ref<Message[]>) => {
                 break
         }
     })
+}
+
+export const sendMessage = () => {
+    client.value.emit(EventTypes.MESSAGE.NAME, {
+        type: EventTypes.MESSAGE.USER,
+        username: username.value,
+        message: message.value
+    })
+    message.value = ''
 }

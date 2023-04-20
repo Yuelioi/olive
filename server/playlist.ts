@@ -7,7 +7,7 @@ import { EventTypes } from './event'
  * 播放器管理
  */
 export default (io: Server, socket: Socket) => {
-    // todo
+    // 管理视频播放器
     const onVideoList = (message: Message) => {
         switch (message.type) {
             case EventTypes.PLAYLIST.GET_VIDEOS:
@@ -18,10 +18,6 @@ export default (io: Server, socket: Socket) => {
             roomManage
         })
     }
-    const onVideoSync = (message: Message) => {
-        io.emit(EventTypes.VIDEO.NAME, message)
-    }
 
     socket.on(EventTypes.PLAYLIST.NAME, onVideoList)
-    socket.on(EventTypes.VIDEO.NAME, onVideoSync)
 }

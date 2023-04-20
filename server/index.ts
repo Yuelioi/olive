@@ -1,9 +1,11 @@
 import { createServer, Server as HTTPServer } from 'http'
 import { Server as SocketIOServer, Socket } from 'socket.io'
-import registerRoomHandlers from './roomHandler'
-import registerChatHandlers from './chatHandler'
-import registerPlayerHandlers from './playerHandler'
-import registerInfo from './info'
+
+import registerMessage from './message'
+import registerPlaylist from './playlist'
+import registerRoom from './room'
+import registerServer from './server'
+import registerVideo from './video'
 
 const server: HTTPServer = createServer()
 const port: number = 8081
@@ -30,11 +32,15 @@ const onConnection = (socket: Socket) => {
     // const roomList = [...rooms.keys()]
     // console.log('All rooms:', roomList)
 
+    // const socketId = socket.handshake.query.socketId
+
     // 注册
-    registerRoomHandlers(io, socket)
-    registerChatHandlers(io, socket)
-    registerPlayerHandlers(io, socket)
-    registerInfo(io, socket)
+
+    registerMessage(io, socket)
+    registerPlaylist(io, socket)
+    registerRoom(io, socket)
+    registerServer(io, socket)
+    registerVideo(io, socket)
 }
 
 io.on('connection', onConnection)
