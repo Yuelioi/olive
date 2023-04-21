@@ -3,6 +3,7 @@
         <div>
             <h2>房间 {{ roomId }}</h2>
             <h2>用户名 {{ username }}</h2>
+            {{ roomUsers }}
 
             <ChatArea id="chat-area" />
             <vPlayer />
@@ -19,15 +20,16 @@ import { ClientData } from '@/configs/config'
 import { useStatusStore } from '@/stores/userstatus'
 import { storeToRefs } from 'pinia'
 
+import { registerServer } from '@/clients/server'
 import ChatArea from '@/components/ChatArea.vue'
 import vPlayer from '@/components/VideoPlayer.vue'
 
-const { roomId, username, isJoined } = storeToRefs(useStatusStore())
+const { roomId, username, isJoined, roomUsers } = storeToRefs(useStatusStore())
 
 if (!roomId) {
     window.location.href = ClientData.host
 }
-
+registerServer()
 onMounted(() => {
     registerRoom()
 })

@@ -3,7 +3,8 @@ import { useStatusStore } from '../stores/userstatus'
 import { EventTypes } from '@/configs/event'
 
 const store = useStatusStore()
-const { username, roomId, usertype, password, isJoined, client, capacity } = storeToRefs(store)
+const { username, roomId, usertype, password, isJoined, client, capacity, sessionId } =
+    storeToRefs(store)
 
 store.userInfoInit()
 
@@ -16,7 +17,7 @@ export const registerRoom = () => {
         username: username.value,
         roomId: roomId.value,
         password: password.value,
-        clientId: client.value.id,
+        sessionId: sessionId.value,
         capacity: capacity.value
     }
 
@@ -49,7 +50,7 @@ export const leaveRoom = () => {
         usertype: usertype.value,
         username: username.value,
         roomId: roomId.value,
-        clientId: client.value.id
+        sessionId: sessionId.value
     })
 
     client.value.close()

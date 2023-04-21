@@ -1,4 +1,4 @@
-import type { Room, clientId, Video } from './types'
+import type { Room, Video } from './types'
 
 /**
  * @description: 房间管理系统
@@ -28,14 +28,14 @@ class RoomManage {
     /**
      *
      * @param roomId : 房间Id
-     * @returns : 房主名(clientId)
+     * @returns : 房主名(sessionId)
      */
-    getRoomOwner(roomId: string): clientId | undefined {
+    getRoomOwner(roomId: string): string | undefined {
         return this.getRoomById(roomId)?.owner
     }
 
     /**
-     * @description 基于clientId 返回房间
+     * @description 基于sessionId 返回房间
      * @param roomId
      * @returns Room
      */
@@ -47,7 +47,7 @@ class RoomManage {
      * 添加房间
      * @param roomId
      * @param roomOwner
-     * @param clientIds
+     * @param sessionIds
      * @param password
      * @param capacity
      * @param playlist
@@ -55,7 +55,7 @@ class RoomManage {
     addRoom(
         roomId: string,
         roomOwner: string,
-        clientIds: string[] = [],
+        sessionIds: string[] = [],
         password: string = '',
         capacity: number = 10,
         playlist: Video[] = []
@@ -63,7 +63,7 @@ class RoomManage {
         this.rooms.push({
             roomId: roomId,
             owner: roomOwner,
-            clientIds: clientIds,
+            sessionIds: sessionIds,
             password: password,
             capacity: capacity,
             playlist: playlist
@@ -84,23 +84,23 @@ class RoomManage {
     /**
      * 向房间添加用户
      * @param room
-     * @param clientId
+     * @param sessionId
      */
-    addUser(room: Room, clientId: clientId) {
-        if (!room.clientIds.includes(clientId)) {
-            room.clientIds.push(clientId)
+    addUser(room: Room, sessionId: string) {
+        if (!room.sessionIds.includes(sessionId)) {
+            room.sessionIds.push(sessionId)
         }
     }
 
     /**
      * 移除当前房间的用户
      * @param room
-     * @param clientId
+     * @param sessionId
      */
-    removeUser(room: Room, clientId: clientId) {
-        const index = room.clientIds?.findIndex((item) => item === clientId)
+    removeUser(room: Room, sessionId: string) {
+        const index = room.sessionIds?.findIndex((item) => item === sessionId)
         if (!index && index !== -1) {
-            room.clientIds?.splice(index, 1)
+            room.sessionIds?.splice(index, 1)
         }
     }
 
@@ -115,6 +115,14 @@ class RoomManage {
 
     updatePlaylist(roomId: string, playlist: Video[]): void {
         this.rooms.find((room) => room.roomId === roomId)!.playlist = playlist
+    }
+
+    /**
+     * 获取房间用户人数
+     * @param roomId 房间号
+     */
+    getRoomUsers(roomId: string) {
+        return this.rooms.find((room) => room.roomId === roomId)!.sessionIds.length
     }
 }
 

@@ -4,7 +4,7 @@
 export type Room = {
     roomId: string
     owner: string
-    clientIds: string[]
+    sessionIds: string[]
     password: string | null
     capacity: number
     playlist: Video[]
@@ -14,7 +14,7 @@ export type Room = {
  * 播放列表
  */
 export type PlayList = {
-    clientId?: clientId
+    sessionId?: sessionId
     videos: Video[]
 }
 
@@ -29,4 +29,4 @@ export type Video = {
 /**
  * client ID
  */
-export type clientId = string
+export type sessionId = string

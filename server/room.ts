@@ -18,7 +18,7 @@ export default (io: Server, socket: Socket) => {
         // 更新房间的用户
         for (const room of roomManage.rooms) {
             const roomSockets = io.sockets.adapter.rooms.get(room.roomId)
-            room.clientIds = roomSockets ? Array.from(roomSockets) : []
+            room.sessionIds = roomSockets ? Array.from(roomSockets) : []
         }
         console.log('处理后')
         console.log(roomManage.rooms)
@@ -43,8 +43,8 @@ export default (io: Server, socket: Socket) => {
                 roomManage.addRoom(socket.id, message.username)
                 roomManage.addRoom(
                     message.roomId,
-                    message.username,
-                    [socket.id],
+                    message.sessionId,
+                    [message.sessionId],
                     message.password,
                     message.capacity
                 )
@@ -63,19 +63,19 @@ export default (io: Server, socket: Socket) => {
 
                     // 如果有房间, 并且没满
                     if (room) {
-                        console.log(room.clientIds?.length < room.capacity)
+                        console.log(room.sessionIds?.length < room.capacity)
                         console.log(room.password === message.password)
                     }
                     if (
                         room &&
-                        room.clientIds?.length < room.capacity &&
+                        room.sessionIds?.length < room.capacity &&
                         room.password === message.password
                     ) {
                         const curRooms = Array.from(socket.rooms)
                         curRooms.push(message.roomId)
                         socket.join(curRooms)
 
-                        room.clientIds.push(socket.id)
+                        room.sessionIds.push(socket.id)
                         socket.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.JOIN,
                             username: message.username,
@@ -84,7 +84,7 @@ export default (io: Server, socket: Socket) => {
                             status: true
                         })
                         roomManage.addRoom(socket.id, message.username)
-                        roomManage.addUser(room, message.clientId)
+                        roomManage.addUser(room, message.sessionId)
                     } else {
                         socket.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.JOIN,
@@ -99,7 +99,7 @@ export default (io: Server, socket: Socket) => {
             case EventTypes.ROOM.LEAVE: {
                 const room = roomManage.getRoomById(message.roomId)
                 if (room) {
-                    if (message.usertype === 'owner' && message.username === room.owner) {
+                    if (message.usertype === 'owner' && message.sessionId === room.owner) {
                         io.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.LEAVE,
                             username: message.username,

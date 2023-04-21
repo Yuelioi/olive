@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import type { Socket } from 'socket.io-client'
+import type { Message } from '@/types/client'
 
 export const useStatusStore = defineStore('userData', () => {
     const username = ref('')
@@ -11,9 +12,11 @@ export const useStatusStore = defineStore('userData', () => {
     const joinPassword = ref('')
     const capacity = ref(10)
     const onlineUsers = ref(1)
+    const roomUsers = ref(1)
     const isJoined = ref(false)
     const message = ref('')
-    const clientId = ref('')
+    const messages = ref<Message[]>([])
+    const sessionId = ref('')
 
     const userInfoInit = () => {
         username.value = username.value || localStorage.getItem('username') || 'Anonymous'
@@ -23,7 +26,7 @@ export const useStatusStore = defineStore('userData', () => {
             ? joinPassword.value
             : localStorage.getItem('password') || ''
         joinPassword.value = joinPassword.value || localStorage.getItem('joinPassword') || ''
-        clientId.value = clientId.value || sessionStorage.getItem('clientId') || ''
+        sessionId.value = sessionId.value || sessionStorage.getItem('sessionId') || ''
     }
     const client = ref<Socket>()
 
@@ -33,25 +36,29 @@ export const useStatusStore = defineStore('userData', () => {
         usertype,
         message,
         onlineUsers,
+        roomUsers,
         roomId,
         password,
         joinPassword,
         capacity,
         client,
-        clientId,
+        sessionId,
+        messages,
         userInfoInit
     } as {
         username: typeof username
         isJoined: typeof isJoined
         usertype: typeof usertype
         message: typeof message
+        messages: typeof messages
         onlineUsers: typeof onlineUsers
+        roomUsers: typeof roomUsers
         roomId: typeof roomId
         password: typeof password
         joinPassword: typeof joinPassword
         capacity: typeof capacity
         userInfoInit: typeof userInfoInit
         client: any
-        clientId: typeof clientId
+        sessionId: typeof sessionId
     }
 })

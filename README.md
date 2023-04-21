@@ -22,3 +22,7 @@ This is a project to watch video with your friends
 8.加入房间失败,记得加个跳转
 
 9.持久化,估计得自定义个ID,或者映射
+
+## 杀程序
+
+Stop-Process-Id (Get-NetTCPConnection-LocalPort 8081).OwningProcess

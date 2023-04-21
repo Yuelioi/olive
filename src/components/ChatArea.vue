@@ -11,21 +11,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
 import { registerMessage, sendMessage } from '@/clients/message'
 
-import type { Message } from '@/types/client'
-
 const store = useStatusStore()
-const { username, client } = storeToRefs(store)
+const { username, client, messages, message } = storeToRefs(store)
 
-const message = ref('')
-const messages = ref<Message[]>([])
-
-onMounted(() => {
-    // 注册消息事件
+onBeforeMount(() => {
     registerMessage(client.value, messages)
 })
 </script>

@@ -32,7 +32,11 @@ const onConnection = (socket: Socket) => {
     // const roomList = [...rooms.keys()]
     // console.log('All rooms:', roomList)
 
-    // const socketId = socket.handshake.query.socketId
+    const sessionId = socket.handshake.query.socketId
+
+    if (sessionId) {
+        1
+    }
 
     // 注册
 
