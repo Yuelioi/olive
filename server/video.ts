@@ -12,7 +12,7 @@ export default (io: Server, socket: Socket) => {
         event_preprocessor(message)
 
         if (message.type === EventTypes.VIDEO.SYNC) {
-            1
+            io.emit(EventTypes.VIDEO.NAME, message)
         } else {
             io.emit(EventTypes.VIDEO.NAME, message)
         }

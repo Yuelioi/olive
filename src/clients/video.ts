@@ -27,6 +27,14 @@ export const registerVideoClient = (client: Socket, art: Artplayer) => {
                 case EventTypes.VIDEO.URL:
                     art.url = msg.message.url
                     break
+                case EventTypes.VIDEO.SYNC:
+                    art.currentTime = msg.message.currentTime
+                    if (msg.message.playing) {
+                        art.play()
+                    } else {
+                        art.pause()
+                    }
+                    break
             }
         }
     })

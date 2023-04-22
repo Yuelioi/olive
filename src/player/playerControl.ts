@@ -39,7 +39,6 @@ export const registerPlayerController = (art: Artplayer) => {
 
     art.on('play', () => {
         if (usertype.value == 'owner') {
-          
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.PLAY,
                 username: username.value,
