@@ -7,7 +7,7 @@ export default (io: Server, socket: Socket) => {
      * 管理房间加入离开
      * @param message
      */
-    const roomHandler = (message: any) => {
+    const roomHandler = (msg: any) => {
         console.log('预处理')
         console.log(roomManage.rooms)
         // 获取io现有房间
@@ -23,73 +23,73 @@ export default (io: Server, socket: Socket) => {
         console.log('处理后')
         console.log(roomManage.rooms)
 
-        switch (message.type) {
+        switch (msg.type) {
             case EventTypes.ROOM.CREATE:
-                if (!roomIds.includes(message.roomId)) {
+                if (!roomIds.includes(msg.roomId)) {
                     const curRooms = Array.from(socket.rooms)
-                    curRooms.push(message.roomId)
+                    curRooms.push(msg.roomId)
                     socket.join(curRooms)
                 } else {
                     socket.emit(EventTypes.ROOM.NAME, {
                         type: EventTypes.ROOM.JOIN,
-                        username: message.username,
-                        roomId: message.roomId,
+                        username: msg.username,
+                        roomId: msg.roomId,
                         message: '房间已存在',
                         status: false
                     })
                     break
                 }
 
-                roomManage.addRoom(socket.id, message.username)
+                roomManage.addRoom(socket.id, msg.username)
                 roomManage.addRoom(
-                    message.roomId,
-                    message.sessionId,
-                    [message.sessionId],
-                    message.password,
-                    message.capacity
+                    msg.roomId,
+                    msg.sessionId,
+                    [msg.sessionId],
+                    msg.password,
+                    msg.capacity
                 )
 
                 socket.emit(EventTypes.ROOM.NAME, {
                     type: EventTypes.ROOM.CREATE,
-                    username: message.username,
-                    roomId: message.roomId,
+                    username: msg.username,
+                    roomId: msg.roomId,
                     message: '房间创建成功',
                     status: true
                 })
                 break
             case EventTypes.ROOM.JOIN:
                 {
-                    const room = roomManage.getRoomById(message.roomId)
+                    const room = roomManage.getRoomById(msg.roomId)
 
                     // 如果有房间, 并且没满
                     if (room) {
                         console.log(room.sessionIds?.length < room.capacity)
-                        console.log(room.password === message.password)
+                        console.log(room.password === msg.password)
                     }
                     if (
                         room &&
                         room.sessionIds?.length < room.capacity &&
-                        room.password === message.password
+                        room.password === msg.password
                     ) {
                         const curRooms = Array.from(socket.rooms)
-                        curRooms.push(message.roomId)
+                        curRooms.push(msg.roomId)
                         socket.join(curRooms)
 
                         room.sessionIds.push(socket.id)
                         socket.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.JOIN,
-                            username: message.username,
-                            roomId: message.roomId,
+                            username: msg.username,
+                            roomId: msg.roomId,
                             message: '成功加入房间',
                             status: true
                         })
-                        roomManage.addRoom(socket.id, message.username)
-                        roomManage.addUser(room, message.sessionId)
+                        roomManage.addRoom(socket.id, msg.username)
+                        roomManage.addUser(room, msg.sessionId)
                     } else {
                         socket.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.JOIN,
-                            username: message.username,
-                            roomId: message.roomId,
+                            username: msg.username,
+                            roomId: msg.roomId,
                             message: '房间不存在,密码错误或者人数已满',
                             status: false
                         })
@@ -97,26 +97,26 @@ export default (io: Server, socket: Socket) => {
                 }
                 break
             case EventTypes.ROOM.LEAVE: {
-                const room = roomManage.getRoomById(message.roomId)
+                const room = roomManage.getRoomById(msg.roomId)
                 if (room) {
-                    if (message.usertype === 'owner' && message.sessionId === room.owner) {
+                    if (msg.usertype === 'owner' && msg.sessionId === room.owner) {
                         io.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.LEAVE,
-                            username: message.username,
-                            roomId: message.roomId,
+                            username: msg.username,
+                            roomId: msg.roomId,
                             message: '房主已解散房间'
                         })
-                        roomManage.removeRoom(message.roomId)
-                        io.socketsLeave(message.roomId)
+                        roomManage.removeRoom(msg.roomId)
+                        io.socketsLeave(msg.roomId)
                     } else {
                         io.emit(EventTypes.ROOM.NAME, {
                             type: EventTypes.ROOM.LEAVE,
-                            username: message.username,
-                            roomId: message.roomId,
+                            username: msg.username,
+                            roomId: msg.roomId,
                             message: '用户离开房间'
                         })
-                        roomManage.removeUser(room, message.roomId)
-                        socket.leave(message.roomId)
+                        roomManage.removeUser(room, msg.roomId)
+                        socket.leave(msg.roomId)
                     }
                 }
                 break

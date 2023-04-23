@@ -1,10 +1,8 @@
-import type { Message } from '@/types/client'
-
-export const event_preprocessor = (message: Message, ...args: any) => {
+export const event_preprocessor = (message: any, ...args: any) => {
     // console.log(message)
     // console.log(args)
 }
 
-export const event_postprocessor = (message: Message) => {
+export const event_postprocessor = (message: any) => {
     // console.log(message)
 }

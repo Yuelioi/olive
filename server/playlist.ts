@@ -1,5 +1,5 @@
 import type { Server, Socket } from 'socket.io'
-import type { Message } from '@/types/client'
+
 import { roomManage } from './data'
 import { EventTypes } from './event'
 
@@ -8,7 +8,7 @@ import { EventTypes } from './event'
  */
 export default (io: Server, socket: Socket) => {
     // 管理视频播放器
-    const onVideoList = (message: Message) => {
+    const onVideoList = (message: any) => {
         switch (message.type) {
             case EventTypes.PLAYLIST.GET_VIDEOS:
                 break

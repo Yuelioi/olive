@@ -4,20 +4,19 @@ import { EventTypes } from '@/configs/event'
 
 import type { Ref } from 'vue'
 import type { Socket } from 'socket.io-client'
-import type { Message } from '@/types/client'
 
 const store = useStatusStore()
 store.userInfoInit()
 
 const { roomId, client, username, message } = storeToRefs(store)
 
-export const registerMessage = (client: Socket, messages: Ref<Message[]>) => {
+export const registerMessage = (client: Socket, messages: Ref<any[]>) => {
     client.on('connect', () => {
         console.log(`聊天已成功连接${roomId.value}`)
     })
 
     // 监听服务器发来的消息
-    client.on(EventTypes.MESSAGE.NAME, (msg: Message) => {
+    client.on(EventTypes.MESSAGE.NAME, (msg: any) => {
         switch (msg.type) {
             case EventTypes.MESSAGE.SYSTEM:
                 messages.value.push({

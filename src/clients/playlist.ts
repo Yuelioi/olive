@@ -1,4 +1,3 @@
-import type { Message } from '@/types/client'
 import type { Socket } from '@/types/global'
 
 import { storeToRefs } from 'pinia'
@@ -12,10 +11,10 @@ const store = useStatusStore()
 storeToRefs(store)
 
 export const registerPlaylistClient = (client: Socket) => {
-    client.on(EventTypes.PLAYLIST.NAME, (msg: Message) => {
+    client.on(EventTypes.PLAYLIST.NAME, (msg: any) => {
         switch (msg.type) {
             case EventTypes.PLAYLIST.GET_VIDEOS:
-                updateVideos(msg.message.playlist)
+                updateVideos(msg.playlist)
                 break
         }
     })

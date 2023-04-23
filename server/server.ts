@@ -1,5 +1,5 @@
 import type { Server, Socket } from 'socket.io'
-import type { Message } from '@/types/client'
+
 import { EventTypes } from './event'
 import { roomManage } from './data'
 
@@ -14,9 +14,7 @@ export default (io: Server, socket: Socket) => {
     const get_server_users = () => {
         return {
             type: EventTypes.SERVER.GET_SERVER_USERS,
-            message: {
-                onlineUsers: io.of('/').sockets.size
-            }
+            onlineUsers: io.of('/').sockets.size
         }
     }
 
@@ -25,22 +23,20 @@ export default (io: Server, socket: Socket) => {
         console.log(roomManage.getRoomUsers(roomId))
         return {
             type: EventTypes.SERVER.GET_ROOM_USERS,
-            message: {
-                roomUsers: roomManage.getRoomUsers(roomId)
-            }
+            roomUsers: roomManage.getRoomUsers(roomId)
         }
     }
     /**
      * 向客户端发送服务器人数
      * @param message
      */
-    const onServerUpdate = (message: Message) => {
+    const onServerUpdate = (message: any) => {
         switch (message.type) {
             case EventTypes.SERVER.GET_SERVER_USERS:
                 io.emit(EventTypes.SERVER.NAME, get_server_users())
                 break
             case EventTypes.SERVER.GET_ROOM_USERS:
-                io.emit(EventTypes.SERVER.NAME, get_room_users(message.message.roomId))
+                io.emit(EventTypes.SERVER.NAME, get_room_users(message.roomId))
                 break
         }
     }

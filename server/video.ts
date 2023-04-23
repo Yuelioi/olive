@@ -1,5 +1,4 @@
 import type { Server, Socket } from 'socket.io'
-import type { Message } from '@/types/client'
 import { EventTypes } from './event'
 
 import { event_preprocessor, event_postprocessor } from './functions'
@@ -8,7 +7,7 @@ import { event_preprocessor, event_postprocessor } from './functions'
  * 播放器管理
  */
 export default (io: Server, socket: Socket) => {
-    const onVideoSync = (message: Message) => {
+    const onVideoSync = (message: any) => {
         event_preprocessor(message)
 
         if (message.type === EventTypes.VIDEO.SYNC) {

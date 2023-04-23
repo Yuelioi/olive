@@ -65,7 +65,6 @@ onMounted(() => {
     })
 
     registerVideoClient(client.value, art)
-
     registerPlayerController(art)
 
     // 用户进入房间进行同步
@@ -73,8 +72,9 @@ onMounted(() => {
     if (usertype.value == 'user') {
         client.value.emit(EventTypes.VIDEO.NAME, {
             type: EventTypes.VIDEO.SYNC,
-            roomId: roomId,
-            username: username.value
+            roomId: roomId.value,
+            username: username.value,
+            data: {}
         })
     }
 

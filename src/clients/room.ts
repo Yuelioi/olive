@@ -26,19 +26,15 @@ export const registerRoom = () => {
     client.value.on(EventTypes.ROOM.NAME, (msg: any) => {
         if (msg.type == EventTypes.ROOM.CREATE) {
             if (msg.status) {
-                console.log(msg.message)
                 isJoined.value = true
             } else {
                 isJoined.value = false
-                console.log(msg.message)
             }
         } else if (msg.type == EventTypes.ROOM.JOIN) {
             if (msg.status) {
-                console.log(msg.message)
                 isJoined.value = true
             } else {
                 isJoined.value = false
-                console.log(msg.message)
             }
         }
     })

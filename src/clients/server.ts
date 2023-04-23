@@ -3,7 +3,7 @@ import { useStatusStore } from '../stores/userstatus'
 import { EventTypes } from '@/configs/event'
 import { io } from 'socket.io-client'
 import { ClientData } from '@/configs/config'
-import type { Message } from '@/types/client'
+
 const store = useStatusStore()
 const { username, usertype, client, onlineUsers, sessionId, roomUsers } = storeToRefs(store)
 
@@ -51,14 +51,14 @@ export const registerServer = () => {
         sessionId: client.value.id
     })
 
-    client.value.on(EventTypes.SERVER.NAME, (msg: Message) => {
+    client.value.on(EventTypes.SERVER.NAME, (msg: any) => {
         switch (msg.type) {
             // 获取在线人数
             case EventTypes.SERVER.GET_SERVER_USERS:
-                onlineUsers.value = msg.message.onlineUsers
+                onlineUsers.value = msg.onlineUsers
                 break
             case EventTypes.SERVER.GET_ROOM_USERS:
-                roomUsers.value = msg.message.roomUsers
+                roomUsers.value = msg.roomUsers
                 break
         }
     })

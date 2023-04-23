@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import type { Socket } from 'socket.io-client'
-import type { Message } from '@/types/client'
 
 export const useStatusStore = defineStore('userData', () => {
     const username = ref('')
@@ -15,7 +14,7 @@ export const useStatusStore = defineStore('userData', () => {
     const roomUsers = ref(1)
     const isJoined = ref(false)
     const message = ref('')
-    const messages = ref<Message[]>([])
+    const messages = ref<any[]>([])
     const sessionId = ref('')
 
     const userInfoInit = () => {

@@ -18,9 +18,7 @@ export const registerPlayerController = (art: Artplayer) => {
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.RESTART,
                 username: username.value,
-                message: {
-                    roomId: roomId.value
-                }
+                roomId: roomId.value
             })
         }
     })
@@ -30,9 +28,7 @@ export const registerPlayerController = (art: Artplayer) => {
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.PAUSE,
                 username: username.value,
-                message: {
-                    roomId: roomId.value
-                }
+                roomId: roomId.value
             })
         }
     })
@@ -42,9 +38,7 @@ export const registerPlayerController = (art: Artplayer) => {
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.PLAY,
                 username: username.value,
-                message: {
-                    roomId: roomId.value
-                }
+                roomId: roomId.value
             })
         }
     })
@@ -54,10 +48,8 @@ export const registerPlayerController = (art: Artplayer) => {
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.URL,
                 username: username.value,
-                message: {
-                    roomId: roomId.value,
-                    url: url
-                }
+                roomId: roomId.value,
+                url: url
             })
         }
     })
@@ -67,10 +59,8 @@ export const registerPlayerController = (art: Artplayer) => {
             client.value.emit(EventTypes.VIDEO.NAME, {
                 type: EventTypes.VIDEO.SEEK,
                 username: username.value,
-                message: {
-                    currentTime: currentTime,
-                    roomId: roomId.value
-                }
+                currentTime: currentTime,
+                roomId: roomId.value
             })
         }
     })

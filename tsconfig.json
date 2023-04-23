@@ -8,8 +8,8 @@
         ],
         "baseUrl": "./",
         "paths": {
-            "@/global": [
-                "./global/*"
+            "@/fcuntions": [
+                "./fcuntions/*"
             ],
             "@/*": [
                 "./src/*"
