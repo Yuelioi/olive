@@ -10,7 +10,7 @@ const { roomId, username, client, usertype } = storeToRefs(store)
 
 export const registerPlayerController = (art: Artplayer) => {
     art.on('video:canplay', () => {
-        console.info('video:canplay')
+        //
     })
 
     art.on('restart', () => {

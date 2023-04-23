@@ -8,14 +8,14 @@ import { EventTypes } from './event'
  */
 export default (io: Server, socket: Socket) => {
     // 管理视频播放器
-    const onVideoList = (message: any) => {
-        switch (message.type) {
+    const onVideoList = (msg: any) => {
+        switch (msg.type) {
             case EventTypes.PLAYLIST.GET_VIDEOS:
                 break
         }
         io.emit(EventTypes.PLAYLIST.NAME, {
             type: EventTypes.PLAYLIST.GET_VIDEOS,
-            roomManage
+            playlist: roomManage.getPlaylist(msg.roomId)
         })
     }
 

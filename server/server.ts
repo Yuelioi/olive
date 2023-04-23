@@ -19,7 +19,8 @@ export default (io: Server, socket: Socket) => {
     }
 
     const get_room_users = (roomId: string) => {
-        console.log(roomManage.rooms)
+        console.log('cha fang')
+        console.log(roomId)
         console.log(roomManage.getRoomUsers(roomId))
         return {
             type: EventTypes.SERVER.GET_ROOM_USERS,

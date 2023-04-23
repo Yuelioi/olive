@@ -122,7 +122,12 @@ class RoomManage {
      * @param roomId 房间号
      */
     getRoomUsers(roomId: string) {
-        return this.rooms.find((room) => room.roomId === roomId)!.sessionIds.length
+        const room = this.rooms.find((room) => room.roomId === roomId)
+        if (room) {
+            return room.sessionIds.length
+        } else {
+            return 0
+        }
     }
 }
 

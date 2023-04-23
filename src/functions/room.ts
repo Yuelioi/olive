@@ -1,9 +1,10 @@
 import { storeToRefs } from 'pinia'
 import { useStatusStore } from '@/stores/userstatus'
+import { EventTypes } from '@/configs/event'
 
 const store = useStatusStore()
 store.userInfoInit()
-const { username, roomId, usertype, password, joinPassword } = storeToRefs(store)
+const { username, roomId, usertype, password, joinPassword, client, sessionId } = storeToRefs(store)
 export const createRoom = (router: any) => {
     // 生成随机的房间ID
 
@@ -18,11 +19,19 @@ export const createRoom = (router: any) => {
         }
     })
 
+    client.value.emit(EventTypes.ROOM, {
+        type: EventTypes.ROOM.CREATE,
+        roomId: roomId.value,
+        password: password.value,
+        username: username.value
+    })
+    usertype.value = 'owner'
     localStorage.setItem('roomId', roomId.value)
     localStorage.setItem('username', username.value)
     localStorage.setItem('usertype', usertype.value)
     localStorage.setItem('password', password.value)
 }
+
 export const joinRoom = (router: any, curRoomId: string = '') => {
     usertype.value = 'user'
 
@@ -39,6 +48,15 @@ export const joinRoom = (router: any, curRoomId: string = '') => {
             }
         })
     }
+
+    client.value.emit(EventTypes.ROOM, {
+        type: EventTypes.ROOM.JOIN,
+        roomId: roomId.value,
+        joinPassword: joinPassword.value,
+        username: username.value
+    })
+
+    usertype.value = 'user'
     localStorage.setItem('roomId', roomId.value)
     localStorage.setItem('username', username.value)
     localStorage.setItem('usertype', usertype.value)
