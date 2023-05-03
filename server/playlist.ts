@@ -13,7 +13,8 @@ export default (io: Server, socket: Socket) => {
             case EventTypes.PLAYLIST.GET_VIDEOS:
                 break
         }
-        io.emit(EventTypes.PLAYLIST.NAME, {
+        // 谁发送的请求, 就发给谁
+        socket.emit(EventTypes.PLAYLIST.NAME, {
             type: EventTypes.PLAYLIST.GET_VIDEOS,
             playlist: roomManage.getPlaylist(msg.roomId)
         })

@@ -1,36 +1,40 @@
-<script setup lang="ts">
-// defineProps<{
-//     msg: string
-// }>()
-</script>
-
 <template>
     <header>
-        <img alt="Vue logo" class="logo" src="@/assets/olive.png" width="115" height="150" />
-        <div class="wrapper"></div>
+        <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            :ellipsis="false"
+            @select="handleSelect"
+        >
+            <el-menu-item index="0">
+                <img
+                    alt="Vue logo"
+                    class="logo"
+                    src="@/assets/olive.png"
+                    width="115"
+                    height="150"
+                />
+            </el-menu-item>
+            <div class="flex-grow" />
+            <el-menu-item index="1">一起看</el-menu-item>
+            <el-menu-item index="2">一起看</el-menu-item>
+            <el-menu-item index="3">介绍</el-menu-item>
+        </el-menu>
     </header>
 </template>
 
-<style scoped>
-h1 {
-    font-weight: 500;
-    font-size: 2.6rem;
-    top: -10px;
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-h3 {
-    font-size: 1.2rem;
+const activeIndex = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+    console.log(key, keyPath)
 }
+</script>
 
-.greetings h1,
-.greetings h3 {
-    text-align: center;
-}
-
-@media (min-width: 1024px) {
-    .greetings h1,
-    .greetings h3 {
-        text-align: left;
-    }
+<style>
+.flex-grow {
+    flex-grow: 1;
 }
 </style>

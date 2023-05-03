@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheWelcome from '@/components/TheWelcome.vue'
+import Projects from '@/components/TheProjects.vue'
 import Header from '@/components/HeaderTop.vue'
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
     <main>
         <Header />
-        <TheWelcome />
+        <Projects />
         <MyForm />
         <label for="username">用户名:</label>
         <input type="text" name="username" v-model="username" />

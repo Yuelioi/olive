@@ -6,9 +6,20 @@ import registerPlaylist from './playlist'
 import registerRoom from './room'
 import registerServer from './server'
 import registerVideo from './video'
+import express from 'express'
 
-const server: HTTPServer = createServer()
-const port: number = 8081
+const app = express()
+const port = process.env.PORT || 8081
+
+// app.listen(port, () => {
+//     console.log('Server listening on port 3000')
+// })
+
+// app.get('/', (req, res) => {
+//     res.send('Hello World!')
+// })
+
+const server: HTTPServer = createServer(app)
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`)
