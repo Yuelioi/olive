@@ -1,6 +1,7 @@
 <template>
     <section v-show="isJoined">
         <div>
+            <a href="/">主页</a>
             <h2>房间 {{ roomId }}</h2>
             <h2>用户名 {{ username }}</h2>
             {{ roomUsers }}
@@ -33,28 +34,32 @@ const { roomId, username, usertype, isJoined, roomUsers, client } = storeToRefs(
 
 const checkId = () => {
     const back = router.options.history.state.back
-    // 如果不是从主页进 就更换ID
+    // 如果不是从主页进 并且服务器没有该房间,则返回主页
     if (back !== '/') {
         console.log('非主页加入')
         const path = window.location.pathname
         const segments = path.split('/') //
         const currentId = segments[segments.length - 1]
         console.log(currentId)
-        // 如果当前连接与房间号不一致, 用户尝试加入, 房主则刷新连接
+
+        // 查找服务器房间密码信息,有就进入 判断密码
         if (roomId.value !== currentId) {
             if (usertype.value == 'user') {
-                joinRoom(router, currentId)
+                // joinRoom(router, currentId)
             } else {
-                router.push({
-                    name: `Room`,
-                    params: {
-                        roomId: roomId.value
-                    }
-                })
+                // router.push({
+                //     name: `Room`,
+                //     params: {
+                //         roomId: roomId.value
+                //     }
+                // })
             }
+            // 没有则返回主页
         } else {
-            createRoom(router)
+            // createRoom(router)
         }
+    } else {
+        registerRoom()
     }
 }
 const checkUsers = (client: any) => {
@@ -66,7 +71,6 @@ const checkUsers = (client: any) => {
 // 先注册服务器
 registerServer()
 onMounted(() => {
-    registerRoom()
     checkId()
     checkUsers(client.value)
 })

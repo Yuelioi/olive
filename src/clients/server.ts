@@ -34,10 +34,9 @@ export const registerServer = () => {
     client.value.on('connect', () => {
         if (sessionId.value) {
             console.log(client.value.id)
-            console.log(sessionId.value)
         } else {
             console.log(client.value.id)
-            console.log(sessionId.value)
+
             sessionId.value = client.value.id
             sessionStorage.setItem('sessionId', sessionId.value)
         }

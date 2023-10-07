@@ -53,15 +53,15 @@ const submit_video = (usertype: string) => {
 onMounted(() => {
     art = new Artplayer({
         container: '.artplayer-app',
-        url: 'https://cdn.yuelili.com/20230404011433.mp4',
+        url: 'https://vod-progressive.akamaized.net/exp=1696732948~acl=%2Fvimeo-prod-src-reg-us-east1%2Fvideos%2F2186417323~hmac=3b4e5f84fac621e78128040e3ac9a89c5d7c63e2218ea7c4cd34c1cd9efa0afc/vimeo-prod-src-reg-us-east1/videos/2186417323?download=1&filename=pexels-maksim-goncharenok-6095531+%28Original%29.mp4&source=1',
         ...vOptions,
         // plugins: [artplayerPlaylist(art)]
 
-        icons: {
-            loading: `<img src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/ploading.gif ">`,
-            state: `<img width="150" heigth="150" src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/state.svg">`,
-            indicator: `<img width="16" heigth="16" src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/indicator.svg">`
-        }
+        // icons: {
+        //     loading: `<img src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/ploading.gif ">`,
+        //     state: `<img width="150" heigth="150" src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/state.svg">`,
+        //     indicator: `<img width="16" heigth="16" src="https://web-1300893378.cos.ap-shanghai.myqcloud.com/olive/assets/imgs/indicator.svg">`
+        // }
     })
 
     registerVideoClient(client.value, art)

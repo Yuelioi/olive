@@ -15,7 +15,6 @@ const { roomId, usertype } = storeToRefs(store)
  */
 export const registerVideoClient = (client: Socket, art: Artplayer) => {
     client.on(EventTypes.VIDEO.NAME, (msg: any) => {
-        console.log(msg)
         if (usertype.value == 'user' && roomId.value == msg.roomId) {
             switch (msg.type) {
                 case EventTypes.VIDEO.SEEK:
